@@ -7,28 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <!-- Cinematic Looping Background -->
-    <video class="bg-video" src="IMG_1501.MOV" autoplay loop muted playsinline></video>
-    <div class="bg-overlay"></div>
-
-    <!-- Frosted Glass Terminal -->
-    <div class="glass-container">
-        <!-- Minimal Boot Screen -->
-        <div id="boot-screen">
-            <div id="boot-text">ESTABLISHING LINK...</div>
-        </div>
-
-        <!-- Main Terminal -->
-        <div class="terminal" id="terminal" style="display: none;">
-            <div id="output"></div>
-            <div class="input-line" id="input-container">
-                <span class="prompt">guest@pump.kin ❯</span>
-                <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
-            </div>
+    <div id="terminal">
+        <div id="output"></div>
+        <div class="input-line" id="input-container" style="display: none;">
+            <span class="prompt">pump.kin:~ $</span>
+            <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

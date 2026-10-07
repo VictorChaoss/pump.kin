@@ -1,8 +1,6 @@
 const outputDiv = document.getElementById('output');
 const commandInput = document.getElementById('command-input');
 const inputContainer = document.getElementById('input-container');
-const bootScreen = document.getElementById('boot-screen');
-const terminal = document.getElementById('terminal');
 
 let dailyContent = {};
 const todayStr = '2026-10-07'; 
@@ -10,27 +8,32 @@ let commandHistory = [];
 let historyIndex = -1;
 let isTyping = false;
 
-// Clean, slow fade-in boot
+const asciiLogo = `
+      ___
+   ___/   \\___
+  /   _   _   \\
+ /   / \\ / \\   \\
+|    \\_/ \\_/    |
+ \\      X      /
+  \\___/   \\___/
+`;
+
 fetch('content.json')
     .then(response => response.json())
     .then(data => {
         dailyContent = data;
-        setTimeout(startTerminal, 2500); // Wait 2.5s on "ESTABLISHING LINK..."
+        initTerminal();
     })
     .catch(error => {
-        setTimeout(startTerminal, 2500);
+        initTerminal();
     });
 
-function startTerminal() {
-    bootScreen.style.display = 'none';
-    terminal.style.display = 'flex';
-    
-    setTimeout(() => {
-        printInstant("<strong>pump.kin</strong> // connected.");
-        printInstant("type 'help' to begin.\n");
-        inputContainer.classList.add('visible');
-        commandInput.focus();
-    }, 300);
+function initTerminal() {
+    printInstant("<pre>" + asciiLogo + "</pre>");
+    runTypingEffect([
+        "pump.kin truth terminal initialized.",
+        "type 'help' to interact with the ghost chain."
+    ]);
 }
 
 commandInput.addEventListener('keydown', function(e) {
@@ -47,7 +50,7 @@ commandInput.addEventListener('keydown', function(e) {
         historyIndex = commandHistory.length;
         this.value = '';
         
-        printInstant(`<span style="color: #6b7280;">guest@pump.kin ❯</span> ${command}`);
+        printInstant(`pump.kin:~ $ ${command}`);
         processCommand(command);
     } else if (e.key === 'ArrowUp') {
         e.preventDefault();
@@ -71,10 +74,9 @@ document.addEventListener('click', () => {
     if (!isTyping) commandInput.focus();
 });
 
-// Sleek, very fast typing effect
 function runTypingEffect(lines, callback) {
     isTyping = true;
-    inputContainer.style.opacity = '0'; 
+    inputContainer.style.display = 'none'; 
     
     let lineIndex = 0;
     
@@ -82,13 +84,12 @@ function runTypingEffect(lines, callback) {
         if (lineIndex < lines.length) {
             const line = lines[lineIndex];
             const div = document.createElement('div');
-            div.className = 'output-line';
             outputDiv.appendChild(div);
             
-            if (line.includes('<div') || line.includes('<span') || line.includes('<pre>') || line.includes('<strong>')) {
+            if (line.includes('<') && line.includes('>')) {
                 div.innerHTML = line;
                 lineIndex++;
-                scrollToBottom();
+                window.scrollTo(0, document.body.scrollHeight);
                 setTimeout(typeNextLine, 50);
                 return;
             }
@@ -96,12 +97,10 @@ function runTypingEffect(lines, callback) {
             let charIndex = 0;
             function typeChar() {
                 if (charIndex < line.length) {
-                    // Very fast typing for premium feel
-                    const speed = line.length > 50 ? 1 : Math.random() * 5 + 2;
                     div.innerHTML += line.charAt(charIndex);
                     charIndex++;
-                    scrollToBottom();
-                    setTimeout(typeChar, speed);
+                    window.scrollTo(0, document.body.scrollHeight);
+                    setTimeout(typeChar, 10);
                 } else {
                     lineIndex++;
                     setTimeout(typeNextLine, 50);
@@ -110,7 +109,7 @@ function runTypingEffect(lines, callback) {
             typeChar();
         } else {
             isTyping = false;
-            inputContainer.style.opacity = '1';
+            inputContainer.style.display = 'flex';
             commandInput.focus();
             if (callback) callback();
         }
@@ -120,14 +119,9 @@ function runTypingEffect(lines, callback) {
 
 function printInstant(htmlContent) {
     const div = document.createElement('div');
-    div.className = 'output-line';
     div.innerHTML = htmlContent;
     outputDiv.appendChild(div);
-    scrollToBottom();
-}
-
-function scrollToBottom() {
-    terminal.scrollTop = terminal.scrollHeight;
+    window.scrollTo(0, document.body.scrollHeight);
 }
 
 function processCommand(cmd) {
@@ -135,37 +129,33 @@ function processCommand(cmd) {
     const mainCmd = args[0].toLowerCase();
     const subCmd = args.slice(1).join(' ');
 
-    let responseLines = [];
-
     switch(mainCmd) {
         case 'help':
-            responseLines = [
+            runTypingEffect([
                 "commands:",
-                "  help    - display manual",
-                "  unlock  - access on-chain fragment",
-                "  ask     - query oracle (e.g. 'ask what happens on halloween')",
-                "  clear   - clear terminal"
-            ];
-            runTypingEffect(responseLines);
+                "  help    - view manual",
+                "  unlock  - fetch on-chain fragment",
+                "  ask     - query oracle",
+                "  clear   - wipe screen"
+            ]);
             break;
         case 'clear':
             outputDiv.innerHTML = '';
-            scrollToBottom();
             break;
         case 'unlock':
             const dayContent = dailyContent[todayStr];
             if (dayContent) {
-                let lines = ["retrieving fragment..."];
+                let lines = ["fetching fragment..."];
                 lines.push(dayContent.text);
                 
                 if (dayContent.mediaType === 'image') {
-                    lines.push(`<div class="media-container"><img src="${dayContent.mediaSrc}" alt="Truth Fragment"></div>`);
+                    lines.push(`<div class="media-container"><img src="${dayContent.mediaSrc}"></div>`);
                 } else if (dayContent.mediaType === 'video') {
-                    lines.push(`<div class="media-container"><video src="${dayContent.mediaSrc}" controls autoplay loop muted></video></div>`);
+                    lines.push(`<div class="media-container"><video src="${dayContent.mediaSrc}" controls autoplay loop></video></div>`);
                 }
                 runTypingEffect(lines);
             } else {
-                runTypingEffect(["fragment not yet available."]);
+                runTypingEffect(["fragment not yet available on chain."]);
             }
             break;
         case 'ask':
@@ -193,11 +183,11 @@ function processCommand(cmd) {
                                         ? data.choices[0].message.content 
                                         : "error: oracle unreachable";
                         
-                        if (!reply.includes('<span class=')) {
+                        if (!reply.includes('<')) {
                             reply = reply.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         }
                         
-                        runTypingEffect(["<pre style='font-family: inherit; font-size: inherit; margin: 0; white-space: pre-wrap; color: #ff6b00;'>" + reply + "</pre>"]);
+                        runTypingEffect(["<pre>" + reply + "</pre>"]);
                     })
                     .catch(err => {
                         runTypingEffect(["error: connection lost."]);

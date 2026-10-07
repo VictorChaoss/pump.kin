@@ -1,151 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap');
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    background-color: #050505;
-    color: #e0e0e0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 15px;
-    font-weight: 300;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #000000;
+    color: #ff6600; /* Halloween Orange */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    margin: 0;
+    padding: 20px;
 }
 
-/* Cinematic Background */
-.bg-video {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    filter: grayscale(80%) contrast(120%) brightness(0.6);
-}
-
-.bg-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* Frosted Glass Container */
-.glass-container {
-    position: relative;
-    z-index: 10;
-    width: 90%;
+#terminal {
     max-width: 800px;
-    height: 75vh;
-    background: rgba(15, 15, 15, 0.45);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
-    display: flex;
-    flex-direction: column;
-    padding: 35px;
+    margin: 0 auto;
 }
-
-/* Minimal Boot Screen */
-#boot-screen {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    color: rgba(255,255,255,0.5);
-    font-size: 13px;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
-
-/* Sleek Terminal */
-.terminal {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    scrollbar-width: none; 
-}
-.terminal::-webkit-scrollbar { display: none; }
 
 #output {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    margin-bottom: 15px;
-}
-
-.output-line {
-    margin-bottom: 8px;
-    line-height: 1.6;
     white-space: pre-wrap;
     word-wrap: break-word;
-    color: #d1d5db;
+    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
-.output-line strong {
-    color: #ff6b00; /* Subtle orange accent for Halloween */
-    font-weight: 700;
-}
-
-/* Media rendering inside glass */
-.media-container {
-    margin: 15px 0;
-    max-width: 70%;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.media-container img, 
-.media-container video {
-    width: 100%;
-    height: auto;
-    display: block;
-    filter: brightness(0.85);
-}
-
-/* Input Area */
 .input-line {
     display: flex;
     align-items: center;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding-top: 15px;
 }
-.input-line.visible { opacity: 1; }
 
 .prompt {
-    margin-right: 15px;
-    color: #9ca3af;
-    font-weight: 700;
+    margin-right: 10px;
 }
 
 #command-input {
     background: transparent;
     border: none;
-    color: #fff;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
+    color: #ff6600;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
     flex-grow: 1;
     outline: none;
-    caret-color: #ff6b00;
+}
+
+.media-container img, 
+.media-container video {
+    max-width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ff6600;
 }
