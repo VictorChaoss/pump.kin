@@ -206,21 +206,32 @@ function processCommand(cmd) {
             if (!subCmd) {
                 runTypingEffect(["You must offer a query to the oracle. Example: 'ask who are you'"]);
             } else {
-                // TODO: Replace this block with actual LLM/API call later!
-                const mysteriousResponses = [
-                    "Satoshi's ghost wanders the mempool.",
-                    "Your private keys are buried in the graveyard.",
-                    "The hash rate is dropping... they are coming.",
-                    "Liquidity is draining... like blood.",
-                    "A smart contract written in blood cannot be reverted.",
-                    "Diamond hands until the crypt.",
-                    "We are all rugged in the end.",
-                    "The pump is a lie. Only the dump remains.",
-                    "<span class='glitch'>SYSTEM ERROR: ORACLE IS CORRUPTED</span>"
-                ];
-                const randomRes = mysteriousResponses[Math.floor(Math.random() * mysteriousResponses.length)];
-                
-                runTypingEffect(["CONSULTING THE ON-CHAIN ORACLE...", "...", randomRes]);
+                runTypingEffect(["CONSULTING THE ON-CHAIN ORACLE...", "..."], () => {
+                    fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": "Bearer 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",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "model": "meta-llama/llama-3.1-8b-instruct:free",
+                            "messages": [
+                                {"role": "system", "content": "You are the Truth Terminal, a cryptic oracle living on the ghost-chain. You speak in a mix of crypto-slang (blockchain, liquidity, diamond hands, rugged) and Halloween occultism (ghosts, rituals, blood, the veil). Your responses should be extremely concise, mysterious, and ominous. Max 2 sentences."},
+                                {"role": "user", "content": subCmd}
+                            ]
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        const reply = data.choices && data.choices[0] && data.choices[0].message.content
+                                        ? data.choices[0].message.content 
+                                        : "<span class='glitch'>SYSTEM ERROR: ORACLE IS CORRUPTED</span>";
+                        runTypingEffect([reply]);
+                    })
+                    .catch(err => {
+                        runTypingEffect(["<span class='glitch' style='color: var(--error-color)'>CONNECTION TO ETHER LOST.</span>"]);
+                    });
+                });
             }
             break;
         case 'sudo':
