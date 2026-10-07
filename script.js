@@ -10,7 +10,6 @@ let isGenerating = false;
 // Vitals Elements
 const vHarvest = document.getElementById('v-harvest');
 const vCountdown = document.getElementById('v-countdown');
-const miniLog = document.getElementById('mini-log');
 
 // Calculate days until Halloween
 function updateCountdown() {
@@ -32,13 +31,6 @@ setInterval(() => {
     if (Math.random() > 0.7) {
         currentHarvest += (Math.random() * 0.5);
         vHarvest.textContent = currentHarvest.toFixed(2) + " SOL";
-        
-        const logLine = document.createElement('div');
-        logLine.textContent = `> sacrifice accepted: +${(Math.random() * 0.1).toFixed(2)} SOL`;
-        miniLog.appendChild(logLine);
-        if (miniLog.children.length > 5) {
-            miniLog.removeChild(miniLog.firstChild);
-        }
     }
 }, 3000);
 
