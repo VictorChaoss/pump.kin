@@ -10,39 +10,52 @@
 <body>
     
     <div class="warning-banner">
-        <span class="blink">WARNING:</span> THE VEIL IS THIN. INTERACTING WITH THE ORACLE MAY CAUSE COGNITIVE DESTABILIZATION OR PERMANENT LIQUIDATION.
+        <span class="blink">WARNING:</span> THE VEIL BETWEEN WORLDS IS TORN. INTERACTING WITH THE ORACLE WILL CURSE YOUR WALLET.
     </div>
 
     <div class="layout">
         
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="sidebar-block">
-                <div class="sidebar-title">SYSTEM VITALS</div>
-                <div class="vital-row">HASH RATE: <span id="v-hash">66.60</span> TH/s</div>
-                <div class="vital-row">BLOCK: <span id="v-block">840,992</span></div>
-                <div class="vital-row">SOULS: <span id="v-souls" style="color: #ff3300;">1,043,992</span></div>
-                <div class="vital-row">MEMPOOL: <span id="v-mempool">CRITICAL</span></div>
+            <!-- Huge Halloween Motif -->
+            <div class="sidebar-logo">
+<pre class="ascii-pumpkin">
+      ___
+   ___/   \___
+  /   _   _   \
+ /   / \ / \   \
+|    \_/ \_/    |
+ \      X      /
+  \___/   \___/
+</pre>
             </div>
 
             <div class="sidebar-block">
-                <div class="sidebar-title">ARCHIVED RITUALS</div>
+                <div class="sidebar-title">REAPING VITALS</div>
+                <div class="vital-row">ECTOPLASM: <span id="v-hash">66.60</span>%</div>
+                <div class="vital-row">GRAVES: <span id="v-block">840,992</span></div>
+                <div class="vital-row">SOULS TAKEN: <span id="v-souls" style="color: #ff6600;">1,043,992</span></div>
+                <div class="vital-row">THE VEIL: <span id="v-mempool">TEARING</span></div>
+            </div>
+
+            <div class="sidebar-block">
+                <div class="sidebar-title">BLOOD RITUALS</div>
                 <ul class="ritual-list">
                     <li class="active">Ritual_000 (Genesis)</li>
-                    <li>Ritual_001 (Static)</li>
-                    <li>Ritual_002 (Entity_Sighting)</li>
-                    <li class="locked">Ritual_003 [LOCKED]</li>
-                    <li class="locked">Ritual_004 [LOCKED]</li>
-                    <li class="locked">Ritual_005 [LOCKED]</li>
-                    <li class="locked">Ritual_006 [LOCKED]</li>
+                    <li>Ritual_001 (Ouija_Board)</li>
+                    <li>Ritual_002 (Entity_Manifest)</li>
+                    <li class="locked">Ritual_003 [SEALED]</li>
+                    <li class="locked">Ritual_004 [SEALED]</li>
+                    <li class="locked">Ritual_005 [SEALED]</li>
+                    <li class="locked">Ritual_006 [SEALED]</li>
                 </ul>
             </div>
             
             <div class="sidebar-block">
-                <div class="sidebar-title">GHOST_CHAIN LOG</div>
+                <div class="sidebar-title">GRAVEYARD LOG</div>
                 <div id="mini-log">
-                    <div>> syncing...</div>
-                    <div>> searching mempool...</div>
+                    <div>> syncing with the dead...</div>
+                    <div>> listening for whispers...</div>
                 </div>
             </div>
         </div>
@@ -51,25 +64,25 @@
         <div class="main-content">
             <div class="chat-header">
                 <div class="header-left">
-                    <span class="label">SESSION ID:</span> <span class="val" id="session-id"></span>
+                    <span class="label">SÉANCE ID:</span> <span class="val" id="session-id"></span>
                 </div>
                 <div class="header-right">
-                    <span class="label">STATUS:</span> <span class="val" style="color: #ff6600;">ACTIVE SEANCE</span>
+                    <span class="label">STATUS:</span> <span class="val" style="color: #ff6600; text-shadow: 0 0 5px #ff6600;">DEMONIC PRESENCE DETECTED</span>
                 </div>
             </div>
 
             <div id="chat-log">
                 <div class="message system">
-                    [SYSTEM] Connected to pump.kin oracle. Model: ghost-chain-alpha.
+                    [SYSTEM] Connected to pump.kin oracle. The spirits are restless tonight.
                 </div>
                 <div class="message system">
-                    [SYSTEM] Note: The oracle is highly unstable. Expect unhinged behavior and unsolicited ASCII art.
+                    [SYSTEM] Note: The oracle is highly unstable. Expect unhinged behavior and cursed ASCII art.
                 </div>
             </div>
 
             <div class="input-area">
                 <span class="prompt-arrow">pump.kin &gt;</span>
-                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="...">
+                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="Speak to the dead...">
                 <span class="cursor"></span>
             </div>
         </div>
