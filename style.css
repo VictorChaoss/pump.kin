@@ -1,7 +1,11 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #050505; /* Slightly lighter than pure black for depth */
+    background-color: #050505;
+    background-image: 
+        linear-gradient(rgba(255, 102, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 102, 0, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px; /* Subtle grid background */
     color: #a0a0a0;
     font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
     font-size: 13px;
@@ -10,9 +14,15 @@ body {
     flex-direction: column;
 }
 
-/* Warning Banner */
+/* Hazard Warning Banner */
 .warning-banner {
-    background-color: #ff1100;
+    background: repeating-linear-gradient(
+        45deg,
+        #8a0000,
+        #8a0000 10px,
+        #d90000 10px,
+        #d90000 20px
+    );
     color: #fff;
     text-align: center;
     padding: 6px;
@@ -20,8 +30,9 @@ body {
     font-size: 11px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    box-shadow: 0 0 10px rgba(255, 17, 0, 0.4);
+    box-shadow: 0 0 15px rgba(217, 0, 0, 0.6);
     z-index: 10;
+    text-shadow: 1px 1px 2px #000;
 }
 .blink { animation: blinker 1s linear infinite; }
 @keyframes blinker { 50% { opacity: 0; } }
@@ -38,11 +49,12 @@ body {
     width: 280px;
     border-right: 1px solid #1a1a1a;
     padding: 20px;
-    background-color: #080808;
+    background-color: rgba(5, 5, 5, 0.95);
     display: flex;
     flex-direction: column;
     gap: 30px;
-    box-shadow: inset -10px 0 20px rgba(0,0,0,0.5);
+    box-shadow: inset -10px 0 20px rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
 }
 
 .sidebar-block {
@@ -54,10 +66,11 @@ body {
     color: #ff6600;
     font-weight: 700;
     margin-bottom: 15px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px dashed #333;
     padding-bottom: 5px;
     font-size: 12px;
     letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
 }
 
 /* Vitals */
@@ -100,7 +113,7 @@ body {
 /* Mini Log */
 #mini-log {
     font-size: 11px;
-    color: #444;
+    color: #555;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -112,13 +125,13 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px 40px;
-    background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+    background: radial-gradient(circle at center, rgba(20,20,20,0.8) 0%, rgba(0,0,0,0.9) 100%);
 }
 
 .chat-header {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid #222;
     padding-bottom: 10px;
     margin-bottom: 20px;
     font-size: 11px;
@@ -132,44 +145,49 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     padding-right: 15px;
     scroll-behavior: smooth;
 }
 #chat-log::-webkit-scrollbar { width: 4px; }
 #chat-log::-webkit-scrollbar-thumb { background-color: #ff6600; }
-#chat-log::-webkit-scrollbar-track { background-color: #111; }
+#chat-log::-webkit-scrollbar-track { background-color: transparent; }
 
 .message {
     line-height: 1.6;
     word-wrap: break-word;
     white-space: pre-wrap;
-    max-width: 90%;
+    max-width: 100%;
 }
 
 .message.system {
-    color: #444;
+    color: #555;
     font-style: italic;
+    border-left: 2px solid #333;
+    padding-left: 10px;
 }
 
+/* Removed chat bubbles - making it a pure CLI log */
 .message.user {
-    color: #e5e7eb;
-    align-self: flex-end;
-    text-align: right;
-    background: #111;
-    padding: 10px 15px;
-    border-radius: 4px;
-    border-left: 2px solid #333;
+    color: #aaa;
 }
-.message.user::before { content: ""; } /* Removed USER prefix for cleaner look */
+.message.user::before {
+    content: "guest@pump.kin:~$ ";
+    color: #555;
+    font-weight: 700;
+}
 
 .message.oracle {
     color: #d1d5db; 
+    border-left: 2px solid #ff6600;
+    padding-left: 10px;
+    background: linear-gradient(90deg, rgba(255, 102, 0, 0.05) 0%, transparent 100%);
 }
 .message.oracle::before {
-    content: "ORACLE: \n";
+    content: "ORACLE RESPONSE: \n";
     color: #ff6600;
     font-weight: 700;
+    text-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
 }
 
 .ascii-art {
@@ -185,14 +203,14 @@ body {
 .input-area {
     display: flex;
     align-items: center;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid #222;
     padding-top: 20px;
     margin-top: 15px;
     position: relative;
 }
 
 .prompt-arrow {
-    color: #ff6600;
+    color: #555;
     margin-right: 15px;
     font-weight: 700;
 }
@@ -211,8 +229,8 @@ body {
 .media-container {
     margin-top: 15px;
     max-width: 350px;
-    border: 1px solid #333;
+    border: 1px solid #444;
     padding: 5px;
-    background: #050505;
+    background: #000;
 }
-.media-container img, .media-container video { width: 100%; display: block; filter: grayscale(50%); }
+.media-container img, .media-container video { width: 100%; display: block; filter: grayscale(20%); }
