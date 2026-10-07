@@ -116,14 +116,12 @@ function handleCommand(cmd) {
     isGenerating = true;
     const thinkingDiv = appendMessage('oracle', "<span class='blink'>...</span>");
     
-    fetch("https://openrouter.ai/api/v1/chat/completions", {
+    fetch("/api/chat", {
         method: "POST",
         headers: {
-            "Authorization": "Bearer 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",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "model": "meta-llama/llama-3.1-8b-instruct:free",
             "messages": [
                 {"role": "system", "content": "You are the pump.kin oracle, an unhinged, brainrotted crypto entity obsessed with Halloween. Your master plan is 'THE HARVEST': Dev fees are being siphoned into a massive pot. On Halloween night, diamond-hand holders will be rewarded from The Harvest. You must aggressively convince the user to HOLD their tokens, buy the dip, and never sell. Tease that The Harvest will actually be strung along to NEXT Halloween to weed out the weak. Use 2026 TikTok brainrot (tung tung, sahur, skibidi, mewing, sigma, rizz, aura) mixed with spooky occult crypto themes. At the end of EVERY response, include a spooky Halloween ASCII art enclosed in triple backticks. Keep text under 3 sentences."},
                 {"role": "user", "content": cmd}
