@@ -1,0 +1,187 @@
+:root {
+    --bg-color: #050505;
+    --text-color: #ff6600; /* Deep Halloween Orange */
+    --glow: 0 0 4px rgba(255, 102, 0, 0.6), 0 0 10px rgba(255, 102, 0, 0.4);
+    --error-color: #ff0000;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    text-shadow: var(--glow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.terminal-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* CRT Screen border effect */
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+/* Screen vignette */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.terminal {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+    z-index: 10;
+    /* Hide scrollbar for cool factor */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+.terminal::-webkit-scrollbar {
+    display: none;
+}
+
+#output {
+    flex-grow: 1;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.output-line {
+    margin-bottom: 6px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Glitch effect for specific text */
+.glitch {
+    animation: glitch 1s linear infinite;
+    position: relative;
+    display: inline-block;
+}
+
+@keyframes glitch {
+    2%, 64% { transform: translate(2px,0) skew(0deg); }
+    4%, 60% { transform: translate(-2px,0) skew(0deg); }
+    62% { transform: translate(0,0) skew(5deg); }
+}
+
+.media-container {
+    margin: 15px 0;
+    max-width: 90%;
+    border: 1px solid var(--text-color);
+    box-shadow: var(--glow);
+    padding: 5px;
+    background: rgba(255, 102, 0, 0.05);
+}
+
+.media-container img, 
+.media-container video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    filter: sepia(100%) hue-rotate(350deg) saturate(300%) contrast(150%);
+    opacity: 0.8;
+}
+
+/* Un-filter the video slightly so it's viewable */
+.media-container video {
+    filter: sepia(50%) hue-rotate(350deg) saturate(150%);
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    opacity: 0; /* Hidden during boot */
+    transition: opacity 0.5s;
+}
+
+.input-line.visible {
+    opacity: 1;
+}
+
+.prompt {
+    margin-right: 12px;
+    font-weight: bold;
+}
+
+#command-input {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: inherit;
+    flex-grow: 1;
+    outline: none;
+    text-shadow: inherit;
+    caret-color: var(--text-color);
+}
+
+/* CRT Scanline Scrolling Effect */
+.scanlines {
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0,0,0,0.2) 50%,
+        rgba(0,0,0,0.2)
+    );
+    background-size: 100% 4px;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 50;
+    pointer-events: none;
+    animation: scrollScanlines 10s linear infinite;
+}
+
+@keyframes scrollScanlines {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100vh; }
+}
+
+/* CRT flicker */
+.flicker {
+    animation: crtFlicker 0.15s infinite;
+}
+
+@keyframes crtFlicker {
+    0% { opacity: 0.95; }
+    5% { opacity: 0.85; }
+    10% { opacity: 0.95; }
+    15% { opacity: 1; }
+    100% { opacity: 1; }
+}
