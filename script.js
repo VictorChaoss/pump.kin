@@ -3,7 +3,8 @@ const chatInput = document.getElementById('chat-input');
 const sessionIdEl = document.getElementById('session-id');
 
 let dailyContent = {};
-const todayStr = '2026-10-07'; 
+const today = new Date();
+const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
 let isGenerating = false;
 
 // Vitals Elements

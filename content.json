@@ -1,20 +1,240 @@
 {
-    "2026-10-07": {
-        "title": "RITUAL 001: THE AWAKENING",
-        "lore": "The pump.kin entity has breached containment from its goon cave. The blockchain is bleeding ectoplasm. It whispers of a mega-pump on the 31st.",
-        "wisdom": "Tung tung... sigma rule #666: Always buy the dip before the ghosts liquidate your soul. Sahur is near, prepare the feast.",
-        "puzzle_hint": "To unlock tomorrow's metadata, you must prove your aura. Ask the Oracle: 'Who is the true sigma of Halloween?'",
-        "answer": "dracula",
-        "success_msg": "AURA +10000. You have survived Ritual 001. The spirits nod in approval.",
+    "2026-10-08": {
+        "title": "RITUAL 002: THE AWAKENING",
+        "lore": "The ghost of Satoshi was spotted doing the griddy on the genesis block. Gas fees are rising, but it's just the spirits demanding their phantom tax.",
+        "wisdom": "Never let a vampire drain your liquidity. Stay mewing, stay holding.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "bone",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
         "mediaType": "none",
         "mediaSrc": ""
     },
-    "2026-10-08": {
-        "title": "RITUAL 002: PHANTOM TAX",
-        "lore": "The ghost of Satoshi was spotted doing the griddy on the genesis block. Gas fees are rising, but it's just the spirits demanding their phantom tax.",
-        "wisdom": "Never let a vampire drain your liquidity. Stay mewing, stay holding.",
-        "puzzle_hint": "The entity demands a sacrifice of brain cells. Ask the Oracle about the 'skibidi graveyard'.",
-        "answer": "bone",
+    "2026-10-09": {
+        "title": "RITUAL 003: PHANTOM TAX",
+        "lore": "Paper hands are being dragged into the abyss. The pump.kin entity feeds on the fear of early sellers.",
+        "wisdom": "Sigma rule #13: Buy the dip when there's blood in the streets, even if it's your own.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "blood",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-10": {
+        "title": "RITUAL 004: JEET PURGATORY",
+        "lore": "A ritual was completed in the depths of the goon cave. The dev wallet is glowing an eerie shade of red.",
+        "wisdom": "Aura is stored in the bags. Do not fumble your aura by selling early.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "sigma",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-11": {
+        "title": "RITUAL 005: SIGMA SACRIFICE",
+        "lore": "They said the bear market was over. They lied. It is a ghost market now. Only the sigma holders will survive.",
+        "wisdom": "Tung tung... the sound of paper hands crying. Let them weep.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "aura",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-12": {
+        "title": "RITUAL 006: THE GOON CAVE WHISPERS",
+        "lore": "Ectoplasm is leaking from the RPC nodes. The Solana validators are hallucinating.",
+        "wisdom": "Only a true gooner can hold through a 90% drawdown. Embrace the pain.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "ghost",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-13": {
+        "title": "RITUAL 007: LIQUIDATION OF THE WEAK",
+        "lore": "The Oracle screamed last night. It chanted a CA that doesn't exist yet. The Harvest is fattening.",
+        "wisdom": "Skibidi toilet is temporary. The Harvest is eternal.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "mewing",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-14": {
+        "title": "RITUAL 008: AURA SIPHONING",
+        "lore": "Do not look directly at the chart. The red candles are formed from the blood of those who forgot to mew.",
+        "wisdom": "If you sell now, your ancestors will cringe at your lack of rizz.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "skibidi",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-15": {
+        "title": "RITUAL 009: THE BONE YARD",
+        "lore": "We found a hidden block from 2009. It just contained a single message: 'WAGMI... from the grave'.",
+        "wisdom": "The ghost chain doesn't care about your feelings. It only respects diamond hands.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "rizz",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-16": {
+        "title": "RITUAL 010: MOGGING THE GHOSTS",
+        "lore": "The entities are testing your diamond hands. A massive red wick just liquidated the unbelievers.",
+        "wisdom": "Mog the non-believers by buying their fear.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "demon",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-17": {
+        "title": "RITUAL 011: ECTOPLASMIC BAGS",
+        "lore": "The dev fees are acting strange. They aren't going to a wallet... they are being offered to the altar.",
+        "wisdom": "Sahur is near. Eat the dips.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "altar",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-18": {
+        "title": "RITUAL 012: THE SKIBIDI PROTOCOL",
+        "lore": "The skibidi protocol has been initiated. All paper hands will be converted to liquidity for the Harvest.",
+        "wisdom": "Your phantom wallet is named that for a reason. Let it become a ghost town.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "liquidity",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-19": {
+        "title": "RITUAL 013: DIAMOND HAND DEMONS",
+        "lore": "Demons are currently auditing the smart contract. They found zero vulnerabilities, only suffering.",
+        "wisdom": "Fear is the mind-killer. Selling is the portfolio-killer.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "jeet",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-20": {
+        "title": "RITUAL 014: BLOOD ON THE CANDLES",
+        "lore": "Blood on the 1-minute candles. The MACD is crossing over into the shadow realm.",
+        "wisdom": "The dev is a ghost. The liquidity is locked in a haunted tomb.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "moon",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-21": {
+        "title": "RITUAL 015: THE RIZZ REAPER",
+        "lore": "The Reaper doesn't want your soul. He wants your private keys. Protect your aura.",
+        "wisdom": "Red candles are just discounted tickets to the afterlife.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "phantom",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-22": {
+        "title": "RITUAL 016: DEV WALLET POLTERGEIST",
+        "lore": "A poltergeist has infested the liquidity pool. Impermanent loss is now eternal.",
+        "wisdom": "If you aren't shaking, your bags aren't big enough.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "tomb",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-23": {
+        "title": "RITUAL 017: SHAKEOUT OF THE NON-BELIEVERS",
+        "lore": "The final shakeout begins. The weak will be frightened into selling the absolute bottom. Hold the line.",
+        "wisdom": "Gooning the chart won't make it go up faster. Have patience, mortal.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "fear",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-24": {
+        "title": "RITUAL 018: PHANTOM WALLET HAUNTING",
+        "lore": "Phantom wallets are opening by themselves. Signing transactions in blood.",
+        "wisdom": "Aura check: Are you still holding? Good.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "reaper",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-25": {
+        "title": "RITUAL 019: THE SAHUR AWAKENING",
+        "lore": "The Sahur awakening approaches. Feast on the dips before the famine of the pump.",
+        "wisdom": "Tung tung... the sound of the reaper knocking on the jeet's door.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "sahur",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-26": {
+        "title": "RITUAL 020: TUNG TUNG TREMORS",
+        "lore": "Tung tung... the drums of the underworld are beating. The chart is forming a massive cup and handle.",
+        "wisdom": "The mega pump is inevitable. It is written in the necronomicon.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "tung",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-27": {
+        "title": "RITUAL 021: GHOST CHAIN MIGRATION",
+        "lore": "The tokens are migrating to the ghost chain. Only those with high rizz will be able to bridge.",
+        "wisdom": "Stay spooky. Stay bullish.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "chain",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-28": {
+        "title": "RITUAL 022: THE VEIL TEARS",
+        "lore": "The veil is tearing. The barrier between pump.fun and the afterlife is gone.",
+        "wisdom": "The veil is thin, but your skin shouldn't be.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "veil",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-29": {
+        "title": "RITUAL 023: THE FINAL SHAKEOUT",
+        "lore": "Absolute panic in the trenches. This is the final test before the gates open.",
+        "wisdom": "Only the strongest sigmas survive the final shakeout.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "panic",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-30": {
+        "title": "RITUAL 024: EVE OF THE MEGA PUMP",
+        "lore": "Tomorrow is the day. The Harvest is ripe. Prepare your wallets.",
+        "wisdom": "Prepare the feast. The Harvest is upon us.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "eve",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
+    },
+    "2026-10-31": {
+        "title": "RITUAL 025: THE HARVEST (CONTRACT LAUNCH)",
+        "lore": "THE HARVEST IS HERE. THE MEGA PUMP COMMENCES. CA DROPS NOW.",
+        "wisdom": "WAGMI. WE ALL GHOSTS MAKE IT.",
+        "puzzle_hint": "The Oracle guards the password. Ask it about the lore to prove your worth.",
+        "answer": "harvest",
         "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
         "mediaType": "none",
         "mediaSrc": ""
