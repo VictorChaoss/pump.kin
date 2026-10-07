@@ -2,8 +2,8 @@ const outputDiv = document.getElementById('output');
 const commandInput = document.getElementById('command-input');
 const inputContainer = document.getElementById('input-container');
 const bootScreen = document.getElementById('boot-screen');
-const dashboard = document.getElementById('dashboard');
-const mempoolStream = document.getElementById('mempool-stream');
+const terminal = document.getElementById('terminal');
+const bootDetails = document.getElementById('boot-details');
 
 let dailyContent = {};
 const todayStr = '2026-10-07'; 
@@ -11,17 +11,16 @@ let commandHistory = [];
 let historyIndex = -1;
 let isTyping = false;
 
-// Boot sequence messages
-const bootSequence = [
-    "INITIALIZING PUMP.KIN KERNEL...",
-    "SYNCING GHOST-CHAIN LEDGER ................. [OK]",
-    "VERIFYING CRYPTOGRAPHIC RITUALS ............ [OK]",
-    "MOUNTING /dev/souls ........................ [OK]",
-    "DECRYPTING THE VEIL ........................ [WARNING: LEAK DETECTED]",
-    "CONNECTION TO THE ETHER ESTABLISHED.",
+// Fast authentic boot sequence
+const bootLines = [
+    "CHECKING NVRAM ..................... OK",
+    "LOADING KERNEL MODS ................ OK",
+    "MOUNTING GHOST CHAIN ............... /dev/hda1",
+    "READING BLOCKCHAIN STATE ........... BLK 666",
+    "ESTABLISHING ORACLE LINK ........... SECURE",
+    "DECRYPTING VEIL PROTOCOLS .......... DONE",
     " ",
-    "<span class='glitch' style='font-size: 1.2em; font-weight: bold;'>WELCOME TO THE SÉANCE.</span>",
-    "Type 'help' to view the manifesto."
+    "READY."
 ];
 
 // Start
@@ -29,33 +28,37 @@ fetch('content.json')
     .then(response => response.json())
     .then(data => {
         dailyContent = data;
-        setTimeout(startBootSequence, 2000); // Wait 2s on giant ASCII pumpkin
+        setTimeout(runBiosBoot, 1000);
     })
     .catch(error => {
-        setTimeout(startBootSequence, 2000);
+        setTimeout(runBiosBoot, 1000);
     });
 
-function startBootSequence() {
-    bootScreen.style.display = 'none';
-    dashboard.style.display = 'grid';
-    startMempoolStream();
-    
-    isTyping = true;
-    let i = 0;
+function runBiosBoot() {
+    let lineIdx = 0;
     
     function nextLine() {
-        if (i < bootSequence.length) {
-            printInstant(bootSequence[i]);
-            i++;
-            setTimeout(nextLine, Math.random() * 200 + 50);
+        if (lineIdx < bootLines.length) {
+            bootDetails.innerHTML += bootLines[lineIdx] + "<br>";
+            lineIdx++;
+            setTimeout(nextLine, Math.random() * 100 + 50); // fast bios text
         } else {
-            isTyping = false;
-            inputContainer.classList.add('visible');
-            commandInput.focus();
-            scrollToBottom();
+            setTimeout(switchToTerminal, 800);
         }
     }
     nextLine();
+}
+
+function switchToTerminal() {
+    bootScreen.style.display = 'none';
+    terminal.style.display = 'flex';
+    
+    // Clear terminal history if needed, but we start fresh
+    printInstant("pump.kin OS v6.6.6 [Terminal Access Granted]");
+    printInstant("Type 'help' for available commands.\n");
+    
+    inputContainer.classList.add('visible');
+    commandInput.focus();
 }
 
 commandInput.addEventListener('keydown', function(e) {
@@ -72,7 +75,7 @@ commandInput.addEventListener('keydown', function(e) {
         historyIndex = commandHistory.length;
         this.value = '';
         
-        printInstant(`<span style="color: #fff">oracle@pump.kin/mempool:~#</span> ${command}`);
+        printInstant(`oracle@pump.kin:~$ ${command}`);
         processCommand(command);
     } else if (e.key === 'ArrowUp') {
         e.preventDefault();
@@ -92,8 +95,8 @@ commandInput.addEventListener('keydown', function(e) {
     }
 });
 
-document.addEventListener('click', (e) => {
-    if (!isTyping && e.target.tagName !== 'VIDEO') commandInput.focus();
+document.addEventListener('click', () => {
+    if (!isTyping) commandInput.focus();
 });
 
 function runTypingEffect(lines, callback) {
@@ -120,15 +123,15 @@ function runTypingEffect(lines, callback) {
             let charIndex = 0;
             function typeChar() {
                 if (charIndex < line.length) {
-                    // Type faster if the line is super long (like ASCII art)
-                    const speed = line.length > 50 ? 2 : Math.random() * 20 + 10;
+                    // Very fast typing for authenticity
+                    const speed = line.length > 50 ? 1 : Math.random() * 10 + 5;
                     div.innerHTML += line.charAt(charIndex);
                     charIndex++;
                     scrollToBottom();
                     setTimeout(typeChar, speed);
                 } else {
                     lineIndex++;
-                    setTimeout(typeNextLine, 100);
+                    setTimeout(typeNextLine, 50);
                 }
             }
             typeChar();
@@ -151,8 +154,7 @@ function printInstant(htmlContent) {
 }
 
 function scrollToBottom() {
-    const wrapper = document.querySelector('.terminal');
-    wrapper.scrollTop = wrapper.scrollHeight;
+    terminal.scrollTop = terminal.scrollHeight;
 }
 
 function processCommand(cmd) {
@@ -165,11 +167,10 @@ function processCommand(cmd) {
     switch(mainCmd) {
         case 'help':
             responseLines = [
-                "Terminal Commands // V 0.6.6",
-                "  help    - Display the manifesto",
+                "Terminal Commands:",
+                "  help    - Display this manual",
                 "  date    - Synchronize block time",
                 "  unlock  - Decrypt today's on-chain truth",
-                "  wallet  - View cryptographic soul balance",
                 "  ask     - Query the oracle (e.g., 'ask what happens on halloween')",
                 "  clear   - Purge terminal memory"
             ];
@@ -181,15 +182,6 @@ function processCommand(cmd) {
         case 'clear':
             outputDiv.innerHTML = '';
             scrollToBottom();
-            break;
-        case 'wallet':
-            responseLines = [
-                "CONNECTING TO WALLET...",
-                "ADDRESS: 0xDeadBeef...666",
-                "BALANCE: 0.00000000 $PUMPKIN",
-                "STATUS: <span class='glitch' style='color: var(--error-color)'>LIQUIDATED</span>"
-            ];
-            runTypingEffect(responseLines);
             break;
         case 'unlock':
             const dayContent = dailyContent[todayStr];
@@ -204,12 +196,12 @@ function processCommand(cmd) {
                 }
                 runTypingEffect(lines);
             } else {
-                runTypingEffect(["<span class='glitch' style='color: var(--error-color)'>BLOCK NOT YET MINED.</span>", "CHECK BACK TOMORROW."]);
+                runTypingEffect(["BLOCK NOT YET MINED.", "CHECK BACK TOMORROW."]);
             }
             break;
         case 'ask':
             if (!subCmd) {
-                runTypingEffect(["You must offer a query to the oracle. Example: 'ask what happens on halloween'"]);
+                runTypingEffect(["You must offer a query to the oracle."]);
             } else {
                 runTypingEffect(["CONSULTING THE ON-CHAIN ORACLE...", "..."], () => {
                     fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -230,54 +222,24 @@ function processCommand(cmd) {
                     .then(data => {
                         let reply = data.choices && data.choices[0] && data.choices[0].message.content
                                         ? data.choices[0].message.content 
-                                        : "<span class='glitch'>SYSTEM ERROR: ORACLE IS CORRUPTED</span>";
+                                        : "SYSTEM ERROR: ORACLE IS CORRUPTED";
                         
                         if (!reply.includes('<span class=')) {
                             reply = reply.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         }
                         
-                        // We wrap the response in pre tags so the ASCII art preserves spaces exactly
                         runTypingEffect(["<pre style='font-family: inherit; font-size: inherit; margin: 0; white-space: pre-wrap;'>" + reply + "</pre>"]);
                     })
                     .catch(err => {
-                        runTypingEffect(["<span class='glitch' style='color: var(--error-color)'>CONNECTION TO ETHER LOST.</span>"]);
+                        runTypingEffect(["CONNECTION TO ETHER LOST."]);
                     });
                 });
             }
             break;
         case 'sudo':
-            runTypingEffect(["<span style='color: var(--error-color)'>YOU DO NOT HAVE THE PRIVATE KEYS FOR THIS.</span>"]);
+            runTypingEffect(["YOU DO NOT HAVE THE PRIVATE KEYS FOR THIS."]);
             break;
         default:
-            runTypingEffect([`Command not recognized by the network: ${mainCmd}`]);
+            runTypingEffect([`Command not recognized: ${mainCmd}`]);
     }
-}
-
-// Fake Mempool Stream Generator
-function startMempoolStream() {
-    const actions = ["LIQUIDATED", "BURNED", "SACRIFICED", "STAKED", "RUGGED"];
-    const entities = ["0x8a...9f", "0xdead...beef", "WALLET_99", "Satoshi_Ghost", "Whale_77", "0x13...666"];
-    
-    function addStreamLine() {
-        if (mempoolStream.children.length > 30) {
-            mempoolStream.removeChild(mempoolStream.firstChild);
-        }
-        
-        const action = actions[Math.floor(Math.random() * actions.length)];
-        const entity = entities[Math.floor(Math.random() * entities.length)];
-        const amt = (Math.random() * 100).toFixed(2);
-        
-        const line = document.createElement('div');
-        line.className = 'mempool-line';
-        
-        let color = '#ff5500';
-        if (action === "LIQUIDATED" || action === "RUGGED") color = 'var(--error-color)';
-        
-        line.innerHTML = `<span style="color: ${color}">[${action}]</span> ${entity} - ${amt} $PUMP`;
-        mempoolStream.appendChild(line);
-        
-        setTimeout(addStreamLine, Math.random() * 2000 + 200);
-    }
-    
-    addStreamLine();
 }
