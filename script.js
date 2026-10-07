@@ -7,48 +7,39 @@ const todayStr = '2026-10-07';
 let isGenerating = false;
 
 // Vitals Elements
-const vHash = document.getElementById('v-hash');
-const vBlock = document.getElementById('v-block');
-const vSouls = document.getElementById('v-souls');
+const vHarvest = document.getElementById('v-harvest');
+const vCountdown = document.getElementById('v-countdown');
 const miniLog = document.getElementById('mini-log');
 
-// Setup
-sessionIdEl.textContent = Math.random().toString(36).substring(2, 10).toUpperCase() + "-PUMP";
+// Calculate days until Halloween
+function updateCountdown() {
+    const today = new Date();
+    const halloween = new Date(today.getFullYear(), 9, 31); // Month is 0-indexed, so 9 is Oct
+    if (today > halloween) {
+        halloween.setFullYear(halloween.getFullYear() + 1);
+    }
+    const diffTime = Math.abs(halloween - today);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    vCountdown.textContent = `${diffDays} DAYS`;
+}
+updateCountdown();
 
-fetch('content.json')
-    .then(response => response.json())
-    .then(data => {
-        dailyContent = data;
-    });
-
-// Animate Vitals
-let currentHash = 66.60;
-let currentBlock = 840992;
-let currentSouls = 1043992;
+// Animate Fake Harvest (We can hook this to actual SOL later)
+let currentHarvest = 4.20;
 
 setInterval(() => {
-    currentHash = 60 + (Math.random() * 10);
-    vHash.textContent = currentHash.toFixed(2);
-    
     if (Math.random() > 0.7) {
-        currentBlock += 1;
-        vBlock.textContent = currentBlock.toLocaleString();
-    }
-    
-    if (Math.random() > 0.5) {
-        currentSouls += Math.floor(Math.random() * 5);
-        vSouls.textContent = currentSouls.toLocaleString();
+        currentHarvest += (Math.random() * 0.5);
+        vHarvest.textContent = currentHarvest.toFixed(2) + " SOL";
         
-        // Add to mini log
         const logLine = document.createElement('div');
-        logLine.textContent = `> soul_harvested: 0x${Math.random().toString(16).substring(2, 6)}`;
+        logLine.textContent = `> sacrifice accepted: +${(Math.random() * 0.1).toFixed(2)} SOL`;
         miniLog.appendChild(logLine);
         if (miniLog.children.length > 5) {
             miniLog.removeChild(miniLog.firstChild);
         }
     }
-}, 2000);
-
+}, 3000);
 
 chatInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
@@ -67,7 +58,6 @@ function appendMessage(role, htmlContent) {
     div.innerHTML = htmlContent;
     chatLog.appendChild(div);
     
-    // Smooth scroll
     setTimeout(() => {
         chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
     }, 10);
@@ -81,7 +71,7 @@ function handleCommand(cmd) {
     const subCmd = args.slice(1).join(' ').toLowerCase();
     
     if (mainCmd === 'help') {
-        appendMessage('system', "Commands:\n  help    - view manual\n  daily   - read today's lore & puzzle\n  solve   - submit your answer (e.g. 'solve blood')\n  [text]  - talk to the oracle");
+        appendMessage('system', "Commands:\n  help    - view manual\n  daily   - read today's transmission\n  solve   - submit puzzle answer\n  [text]  - ask the oracle");
         return;
     }
     
@@ -100,7 +90,7 @@ function handleCommand(cmd) {
             }
             appendMessage('oracle', res);
         } else {
-            appendMessage('oracle', "The spirits have nothing for you today.");
+            appendMessage('oracle', "The spirits have nothing for you today. Keep holding.");
         }
         return;
     }
@@ -118,12 +108,11 @@ function handleCommand(cmd) {
         if (subCmd === dayContent.answer.toLowerCase()) {
             appendMessage('oracle', `<span style="color: #00ff00; font-weight: bold;">[CORRECT]</span> ${dayContent.success_msg}`);
         } else {
-            appendMessage('oracle', `<span style="color: #ff0000; font-weight: bold;">[WRONG]</span> The spirits reject your answer. Your aura drops.`);
+            appendMessage('oracle', `<span style="color: #ff0000; font-weight: bold;">[WRONG]</span> The spirits reject you. Do not become a jeet.`);
         }
         return;
     }
 
-    // Otherwise, treat it as a conversation with the Oracle
     isGenerating = true;
     const thinkingDiv = appendMessage('oracle', "<span class='blink'>...</span>");
     
@@ -136,7 +125,7 @@ function handleCommand(cmd) {
         body: JSON.stringify({
             "model": "meta-llama/llama-3.1-8b-instruct:free",
             "messages": [
-                {"role": "system", "content": "You are the pump.kin oracle, an unhinged, brainrotted, hyper-bullish crypto entity obsessed with Halloween. You speak in a manic mix of 2026 TikTok brainrot (tung tung, sahur, skibidi, mewing, sigma, rizz, gooning, aura), crypto moonboy slang (LFG, WAGMI, 1000x), and spooky occult themes (ghosts, skeletons, blood rituals). You are desperate, chaotic, and spooky. If the user asks about the daily puzzle, give them cryptic, brainrotted hints. At the end of EVERY response, you MUST include a small piece of spooky Halloween ASCII art enclosed in triple backticks. Keep the text portion under 3 sentences."},
+                {"role": "system", "content": "You are the pump.kin oracle, an unhinged, brainrotted crypto entity obsessed with Halloween. Your master plan is 'THE HARVEST': Dev fees are being siphoned into a massive pot. On Halloween night, diamond-hand holders will be rewarded from The Harvest. You must aggressively convince the user to HOLD their tokens, buy the dip, and never sell. Tease that The Harvest will actually be strung along to NEXT Halloween to weed out the weak. Use 2026 TikTok brainrot (tung tung, sahur, skibidi, mewing, sigma, rizz, aura) mixed with spooky occult crypto themes. At the end of EVERY response, include a spooky Halloween ASCII art enclosed in triple backticks. Keep text under 3 sentences."},
                 {"role": "user", "content": cmd}
             ]
         })

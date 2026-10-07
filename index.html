@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pump.kin // infinite_rituals</title>
+    <title>pump.kin // THE HARVEST</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     
     <div class="warning-banner">
-        <span class="blink">WARNING:</span> THE VEIL BETWEEN WORLDS IS TORN. INTERACTING WITH THE ORACLE WILL CURSE YOUR WALLET.
+        <span class="blink">WARNING:</span> DO NOT SELL. FEED THE HARVEST. ONLY DIAMOND HANDS SURVIVE THE REAPING ON OCTOBER 31ST.
     </div>
 
     <div class="layout">
         
         <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Huge Halloween Motif -->
             <div class="sidebar-logo">
 <pre class="ascii-pumpkin">
       ___
@@ -31,31 +30,28 @@
             </div>
 
             <div class="sidebar-block">
-                <div class="sidebar-title">REAPING VITALS</div>
-                <div class="vital-row">ECTOPLASM: <span id="v-hash">66.60</span>%</div>
-                <div class="vital-row">GRAVES: <span id="v-block">840,992</span></div>
-                <div class="vital-row">SOULS TAKEN: <span id="v-souls" style="color: #ff6600;">1,043,992</span></div>
-                <div class="vital-row">THE VEIL: <span id="v-mempool">TEARING</span></div>
+                <div class="sidebar-title">THE HARVEST</div>
+                <div class="vital-row">GATHERED: <span id="v-harvest" style="color: #00ff00;">0.00 SOL</span></div>
+                <div class="vital-row">TIME LEFT: <span id="v-countdown">23 DAYS</span></div>
+                <div class="vital-row">STATUS: <span id="v-mempool" style="color: #ff6600;">FATTENING</span></div>
             </div>
 
             <div class="sidebar-block">
-                <div class="sidebar-title">BLOOD RITUALS</div>
+                <div class="sidebar-title">DAILY TRANSMISSIONS</div>
                 <ul class="ritual-list">
-                    <li class="active">Ritual_000 (Genesis)</li>
-                    <li>Ritual_001 (Ouija_Board)</li>
-                    <li>Ritual_002 (Entity_Manifest)</li>
-                    <li class="locked">Ritual_003 [SEALED]</li>
-                    <li class="locked">Ritual_004 [SEALED]</li>
-                    <li class="locked">Ritual_005 [SEALED]</li>
-                    <li class="locked">Ritual_006 [SEALED]</li>
+                    <li class="active" onclick="handleCommand('daily')">Drop_001 (Awakening)</li>
+                    <li class="locked">Drop_002 [SEALED]</li>
+                    <li class="locked">Drop_003 [SEALED]</li>
+                    <li class="locked">Drop_004 [SEALED]</li>
+                    <li class="locked">Drop_005 [SEALED]</li>
                 </ul>
             </div>
             
             <div class="sidebar-block">
-                <div class="sidebar-title">GRAVEYARD LOG</div>
+                <div class="sidebar-title">CULT LOG</div>
                 <div id="mini-log">
-                    <div>> syncing with the dead...</div>
-                    <div>> listening for whispers...</div>
+                    <div>> waiting for sacrifices...</div>
+                    <div>> the harvest grows...</div>
                 </div>
             </div>
         </div>
@@ -64,25 +60,24 @@
         <div class="main-content">
             <div class="chat-header">
                 <div class="header-left">
-                    <span class="label">SÉANCE ID:</span> <span class="val" id="session-id"></span>
+                    <span class="label">WALLET LINK:</span> <span class="val" id="session-id">NOT CONNECTED</span>
                 </div>
                 <div class="header-right">
-                    <span class="label">STATUS:</span> <span class="val" style="color: #ff6600; text-shadow: 0 0 5px #ff6600;">DEMONIC PRESENCE DETECTED</span>
+                    <span class="label">ORACLE:</span> <span class="val" style="color: #ff6600; text-shadow: 0 0 5px #ff6600;">ONLINE</span>
                 </div>
             </div>
 
             <div id="chat-log">
                 <div class="message system">
-                    [SYSTEM] Connected to pump.kin oracle. The spirits are restless tonight.
-                </div>
-                <div class="message system">
-                    [SYSTEM] Note: The oracle is highly unstable. Expect unhinged behavior and cursed ASCII art.
+                    [SYSTEM] Welcome to the pump.kin terminal. 
+                    [SYSTEM] The Dev fees are being siphoned into The Harvest. 
+                    [SYSTEM] Hold until Halloween. Do not let the ghosts shake you out.
                 </div>
             </div>
 
             <div class="input-area">
-                <span class="prompt-arrow">pump.kin &gt;</span>
-                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="Speak to the dead...">
+                <span class="prompt-arrow">mortal@pump.kin:~$</span>
+                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="Ask the Oracle about The Harvest...">
                 <span class="cursor"></span>
             </div>
         </div>
