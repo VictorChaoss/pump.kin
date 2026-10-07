@@ -1,14 +1,17 @@
 const outputDiv = document.getElementById('output');
 const commandInput = document.getElementById('command-input');
 const inputContainer = document.getElementById('input-container');
+const bootScreen = document.getElementById('boot-screen');
+const dashboard = document.getElementById('dashboard');
+const mempoolStream = document.getElementById('mempool-stream');
 
 let dailyContent = {};
-const todayStr = '2026-10-07'; // For testing based on current date
+const todayStr = '2026-10-07'; 
 let commandHistory = [];
 let historyIndex = -1;
 let isTyping = false;
 
-// Boot sequence messages - Crypto x Occult theme
+// Boot sequence messages
 const bootSequence = [
     "INITIALIZING PUMP.KIN KERNEL...",
     "SYNCING GHOST-CHAIN LEDGER ................. [OK]",
@@ -17,23 +20,43 @@ const bootSequence = [
     "DECRYPTING THE VEIL ........................ [WARNING: LEAK DETECTED]",
     "CONNECTION TO THE ETHER ESTABLISHED.",
     " ",
-    "<span class='glitch'>WELCOME TO THE TRUTH_TERMINAL.</span>",
+    "<span class='glitch' style='font-size: 1.2em; font-weight: bold;'>WELCOME TO THE SÉANCE.</span>",
     "Type 'help' to view the manifesto."
 ];
 
-// Load content and start boot sequence
+// Start
 fetch('content.json')
     .then(response => response.json())
     .then(data => {
         dailyContent = data;
-        runBootSequence();
+        setTimeout(startBootSequence, 2000); // Wait 2s on giant ASCII pumpkin
     })
     .catch(error => {
-        runTypingEffect(["ERROR: THE SMART CONTRACT IS CURSED. COULD NOT LOAD CORE."], () => {
+        setTimeout(startBootSequence, 2000);
+    });
+
+function startBootSequence() {
+    bootScreen.style.display = 'none';
+    dashboard.style.display = 'grid';
+    startMempoolStream();
+    
+    isTyping = true;
+    let i = 0;
+    
+    function nextLine() {
+        if (i < bootSequence.length) {
+            printInstant(bootSequence[i]);
+            i++;
+            setTimeout(nextLine, Math.random() * 200 + 50);
+        } else {
+            isTyping = false;
             inputContainer.classList.add('visible');
             commandInput.focus();
-        });
-    });
+            scrollToBottom();
+        }
+    }
+    nextLine();
+}
 
 commandInput.addEventListener('keydown', function(e) {
     if (isTyping) {
@@ -69,28 +92,9 @@ commandInput.addEventListener('keydown', function(e) {
     }
 });
 
-document.addEventListener('click', () => {
-    if (!isTyping) commandInput.focus();
+document.addEventListener('click', (e) => {
+    if (!isTyping && e.target.tagName !== 'VIDEO') commandInput.focus();
 });
-
-function runBootSequence() {
-    isTyping = true;
-    let i = 0;
-    
-    function nextLine() {
-        if (i < bootSequence.length) {
-            printInstant(bootSequence[i]);
-            i++;
-            setTimeout(nextLine, Math.random() * 300 + 100);
-        } else {
-            isTyping = false;
-            inputContainer.classList.add('visible');
-            commandInput.focus();
-            scrollToBottom();
-        }
-    }
-    nextLine();
-}
 
 function runTypingEffect(lines, callback) {
     isTyping = true;
@@ -105,24 +109,26 @@ function runTypingEffect(lines, callback) {
             div.className = 'output-line';
             outputDiv.appendChild(div);
             
-            if (line.includes('<div') || line.includes('<span')) {
+            if (line.includes('<div') || line.includes('<span') || line.includes('<pre>')) {
                 div.innerHTML = line;
                 lineIndex++;
                 scrollToBottom();
-                setTimeout(typeNextLine, 500);
+                setTimeout(typeNextLine, 100);
                 return;
             }
 
             let charIndex = 0;
             function typeChar() {
                 if (charIndex < line.length) {
+                    // Type faster if the line is super long (like ASCII art)
+                    const speed = line.length > 50 ? 2 : Math.random() * 20 + 10;
                     div.innerHTML += line.charAt(charIndex);
                     charIndex++;
                     scrollToBottom();
-                    setTimeout(typeChar, Math.random() * 30 + 10);
+                    setTimeout(typeChar, speed);
                 } else {
                     lineIndex++;
-                    setTimeout(typeNextLine, 200);
+                    setTimeout(typeNextLine, 100);
                 }
             }
             typeChar();
@@ -145,7 +151,6 @@ function printInstant(htmlContent) {
 }
 
 function scrollToBottom() {
-    window.scrollTo(0, document.body.scrollHeight);
     const wrapper = document.querySelector('.terminal');
     wrapper.scrollTop = wrapper.scrollHeight;
 }
@@ -165,7 +170,7 @@ function processCommand(cmd) {
                 "  date    - Synchronize block time",
                 "  unlock  - Decrypt today's on-chain truth",
                 "  wallet  - View cryptographic soul balance",
-                "  ask     - Query the oracle (e.g., 'ask what is your name')",
+                "  ask     - Query the oracle (e.g., 'ask what happens on halloween')",
                 "  clear   - Purge terminal memory"
             ];
             runTypingEffect(responseLines);
@@ -181,7 +186,7 @@ function processCommand(cmd) {
             responseLines = [
                 "CONNECTING TO WALLET...",
                 "ADDRESS: 0xDeadBeef...666",
-                "BALANCE: 0.00000000 SOULS",
+                "BALANCE: 0.00000000 $PUMPKIN",
                 "STATUS: <span class='glitch' style='color: var(--error-color)'>LIQUIDATED</span>"
             ];
             runTypingEffect(responseLines);
@@ -204,7 +209,7 @@ function processCommand(cmd) {
             break;
         case 'ask':
             if (!subCmd) {
-                runTypingEffect(["You must offer a query to the oracle. Example: 'ask who are you'"]);
+                runTypingEffect(["You must offer a query to the oracle. Example: 'ask what happens on halloween'"]);
             } else {
                 runTypingEffect(["CONSULTING THE ON-CHAIN ORACLE...", "..."], () => {
                     fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -227,14 +232,12 @@ function processCommand(cmd) {
                                         ? data.choices[0].message.content 
                                         : "<span class='glitch'>SYSTEM ERROR: ORACLE IS CORRUPTED</span>";
                         
-                        // Sanitize HTML so ASCII art tags (<, >) don't break the DOM, except if it's our error message
                         if (!reply.includes('<span class=')) {
                             reply = reply.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         }
                         
-                        // To speed up typing for long ASCII art, we can inject a class that speeds up the typing speed 
-                        // But since runTypingEffect handles it, we just pass the string.
-                        runTypingEffect([reply]);
+                        // We wrap the response in pre tags so the ASCII art preserves spaces exactly
+                        runTypingEffect(["<pre style='font-family: inherit; font-size: inherit; margin: 0; white-space: pre-wrap;'>" + reply + "</pre>"]);
                     })
                     .catch(err => {
                         runTypingEffect(["<span class='glitch' style='color: var(--error-color)'>CONNECTION TO ETHER LOST.</span>"]);
@@ -248,4 +251,33 @@ function processCommand(cmd) {
         default:
             runTypingEffect([`Command not recognized by the network: ${mainCmd}`]);
     }
+}
+
+// Fake Mempool Stream Generator
+function startMempoolStream() {
+    const actions = ["LIQUIDATED", "BURNED", "SACRIFICED", "STAKED", "RUGGED"];
+    const entities = ["0x8a...9f", "0xdead...beef", "WALLET_99", "Satoshi_Ghost", "Whale_77", "0x13...666"];
+    
+    function addStreamLine() {
+        if (mempoolStream.children.length > 30) {
+            mempoolStream.removeChild(mempoolStream.firstChild);
+        }
+        
+        const action = actions[Math.floor(Math.random() * actions.length)];
+        const entity = entities[Math.floor(Math.random() * entities.length)];
+        const amt = (Math.random() * 100).toFixed(2);
+        
+        const line = document.createElement('div');
+        line.className = 'mempool-line';
+        
+        let color = '#ff5500';
+        if (action === "LIQUIDATED" || action === "RUGGED") color = 'var(--error-color)';
+        
+        line.innerHTML = `<span style="color: ${color}">[${action}]</span> ${entity} - ${amt} $PUMP`;
+        mempoolStream.appendChild(line);
+        
+        setTimeout(addStreamLine, Math.random() * 2000 + 200);
+    }
+    
+    addStreamLine();
 }

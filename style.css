@@ -1,8 +1,9 @@
 :root {
-    --bg-color: #050505;
-    --text-color: #ff6600; /* Deep Halloween Orange */
-    --glow: 0 0 4px rgba(255, 102, 0, 0.6), 0 0 10px rgba(255, 102, 0, 0.4);
+    --bg-color: #030101;
+    --text-color: #ff5500;
+    --glow: 0 0 3px rgba(255, 85, 0, 0.7), 0 0 8px rgba(255, 85, 0, 0.5);
     --error-color: #ff0000;
+    --border-color: rgba(255, 85, 0, 0.3);
 }
 
 * {
@@ -15,7 +16,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
+    font-size: 14px;
     height: 100vh;
     overflow: hidden;
     position: relative;
@@ -25,16 +26,15 @@ body {
     align-items: center;
 }
 
-.terminal-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
+/* CRT Screen Effects */
+.crt-vignette {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+    z-index: 40;
 }
 
-/* CRT Screen border effect */
 body::before {
     content: " ";
     display: block;
@@ -46,30 +46,71 @@ body::before {
     pointer-events: none;
 }
 
-/* Screen vignette */
-body::after {
-    content: "";
+/* Boot Screen */
+#boot-screen {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
-    pointer-events: none;
-    z-index: 3;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    background-color: var(--bg-color);
+}
+
+#ascii-pumpkin {
+    font-size: 24px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    z-index: 10;
+    position: relative;
+}
+
+.pane {
+    border: 1px solid var(--border-color);
+    background: rgba(255, 85, 0, 0.03);
+    box-shadow: inset 0 0 20px rgba(255, 85, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.pane-header {
+    background: rgba(255, 85, 0, 0.15);
+    padding: 5px 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* Terminal */
+.terminal-pane {
+    flex-grow: 1;
 }
 
 .terminal {
+    padding: 15px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    position: relative;
-    z-index: 10;
-    /* Hide scrollbar for cool factor */
     scrollbar-width: none; 
-    -ms-overflow-style: none;
 }
-.terminal::-webkit-scrollbar {
-    display: none;
-}
+.terminal::-webkit-scrollbar { display: none; }
 
 #output {
     flex-grow: 1;
@@ -81,63 +122,80 @@ body::after {
 
 .output-line {
     margin-bottom: 6px;
-    line-height: 1.5;
+    line-height: 1.4;
     white-space: pre-wrap;
     word-wrap: break-word;
 }
 
-/* Glitch effect for specific text */
-.glitch {
-    animation: glitch 1s linear infinite;
+/* Side Panel */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cam-pane {
+    height: 35%;
     position: relative;
-    display: inline-block;
 }
 
-@keyframes glitch {
-    2%, 64% { transform: translate(2px,0) skew(0deg); }
-    4%, 60% { transform: translate(-2px,0) skew(0deg); }
-    62% { transform: translate(0,0) skew(5deg); }
+.cam-content {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    background: #000;
 }
 
-.media-container {
-    margin: 15px 0;
-    max-width: 90%;
-    border: 1px solid var(--text-color);
-    box-shadow: var(--glow);
-    padding: 5px;
-    background: rgba(255, 102, 0, 0.05);
-}
-
-.media-container img, 
-.media-container video {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    filter: sepia(100%) hue-rotate(350deg) saturate(300%) contrast(150%);
+.cam-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(100%) hue-rotate(340deg) saturate(200%) contrast(150%) brightness(0.6);
     opacity: 0.8;
 }
 
-/* Un-filter the video slightly so it's viewable */
-.media-container video {
-    filter: sepia(50%) hue-rotate(350deg) saturate(150%);
+.cam-overlay {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 5px;
+    pointer-events: none;
 }
 
+.mempool-pane {
+    flex-grow: 1;
+}
+
+#mempool-stream {
+    padding: 10px;
+    font-size: 11px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: calc(100% - 25px);
+}
+
+.mempool-line {
+    margin-bottom: 4px;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Input */
 .input-line {
     display: flex;
     align-items: center;
     margin-top: 10px;
-    opacity: 0; /* Hidden during boot */
+    opacity: 0;
     transition: opacity 0.5s;
 }
-
-.input-line.visible {
-    opacity: 1;
-}
-
-.prompt {
-    margin-right: 12px;
-    font-weight: bold;
-}
+.input-line.visible { opacity: 1; }
+.prompt { margin-right: 10px; font-weight: bold; }
 
 #command-input {
     background: transparent;
@@ -151,21 +209,27 @@ body::after {
     caret-color: var(--text-color);
 }
 
-/* CRT Scanline Scrolling Effect */
+/* Utils */
+.blinking { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.glitch { animation: glitch 1.5s linear infinite; position: relative; display: inline-block; }
+@keyframes glitch {
+    2%, 64% { transform: translate(1px,0) skew(0deg); }
+    4%, 60% { transform: translate(-1px,0) skew(0deg); }
+    62% { transform: translate(0,0) skew(3deg); filter: blur(1px); }
+}
+
 .scanlines {
     background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0),
-        rgba(255,255,255,0) 50%,
-        rgba(0,0,0,0.2) 50%,
-        rgba(0,0,0,0.2)
+        to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3)
     );
     background-size: 100% 4px;
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: 50;
     pointer-events: none;
-    animation: scrollScanlines 10s linear infinite;
+    animation: scrollScanlines 8s linear infinite;
 }
 
 @keyframes scrollScanlines {
@@ -173,15 +237,9 @@ body::after {
     100% { background-position: 0 100vh; }
 }
 
-/* CRT flicker */
-.flicker {
-    animation: crtFlicker 0.15s infinite;
-}
-
+.flicker { animation: crtFlicker 0.1s infinite; }
 @keyframes crtFlicker {
-    0% { opacity: 0.95; }
-    5% { opacity: 0.85; }
-    10% { opacity: 0.95; }
-    15% { opacity: 1; }
-    100% { opacity: 1; }
+    0% { opacity: 0.98; }
+    50% { opacity: 0.93; }
+    100% { opacity: 0.99; }
 }

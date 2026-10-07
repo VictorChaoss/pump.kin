@@ -3,20 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pump.kin // TRUTH_TERMINAL</title>
+    <title>pump.kin // GHOST_CHAIN</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="flicker">
     <div class="scanlines"></div>
-    <div class="terminal-wrapper">
-        <div class="terminal">
-            <div id="output"></div>
-            <div class="input-line" id="input-container">
-                <span class="prompt">oracle@pump.kin/mempool:~#</span>
-                <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
+    <div class="crt-vignette"></div>
+    
+    <!-- Boot Screen -->
+    <div id="boot-screen">
+        <pre class="glitch" id="ascii-pumpkin">
+                  _,--~~--,_
+                ,^'          '^,
+               /      _ _       \
+              |      (O O)       |
+              |       \ /        |
+               \      X X       /
+                `-,__  ^  __,-'
+                     `~~~'
+        </pre>
+        <div id="boot-text" class="glitch">INITIALIZING SÉANCE...</div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard" id="dashboard" style="display: none;">
+        
+        <div class="pane terminal-pane">
+            <div class="pane-header">
+                <span>[ TERMINAL_UPLINK ]</span>
+                <span class="blinking">REC</span>
+            </div>
+            <div class="terminal">
+                <div id="output"></div>
+                <div class="input-line" id="input-container">
+                    <span class="prompt">oracle@pump.kin/mempool:~#</span>
+                    <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
+                </div>
             </div>
         </div>
+
+        <div class="side-panel">
+            <div class="pane cam-pane">
+                <div class="pane-header">
+                    <span>[ SURVEILLANCE ]</span>
+                    <span>CAM_01</span>
+                </div>
+                <div class="cam-content">
+                    <video src="IMG_1501.MOV" autoplay loop muted playsinline></video>
+                    <div class="cam-overlay glitch">STATIC INTERFERENCE</div>
+                </div>
+            </div>
+            
+            <div class="pane mempool-pane">
+                <div class="pane-header">
+                    <span>[ GHOST_MEMPOOL ]</span>
+                    <span>LIVE</span>
+                </div>
+                <div id="mempool-stream">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+        </div>
+        
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
