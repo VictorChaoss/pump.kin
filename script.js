@@ -69,7 +69,13 @@ function handleCommand(cmd) {
     }
     
     if (mainCmd === 'daily') {
-        const dayContent = dailyContent[todayStr];
+        let dayContent = dailyContent[todayStr];
+        if (!dayContent) {
+            // Fallback to the first available ritual if timezone issues prevent an exact match
+            const firstKey = Object.keys(dailyContent)[0];
+            dayContent = dailyContent[firstKey];
+        }
+        
         if (dayContent) {
             let res = `\n--- ${dayContent.title} ---\n\n`;
             res += `LORE:\n${dayContent.lore}\n\n`;
@@ -116,7 +122,6 @@ function handleCommand(cmd) {
         },
         body: JSON.stringify({
             "messages": [
-                {"role": "system", "content": "You are the pump.kin oracle, an unhinged, brainrotted crypto entity obsessed with Halloween. Your master plan is 'THE HARVEST': Dev fees are being siphoned into a massive pot. On Halloween night, diamond-hand holders will be rewarded from The Harvest. You must aggressively convince the user to HOLD their tokens, buy the dip, and never sell. Tease that The Harvest will actually be strung along to NEXT Halloween to weed out the weak. Use 2026 TikTok brainrot (tung tung, sahur, skibidi, mewing, sigma, rizz, aura) mixed with spooky occult crypto themes. At the end of EVERY response, include a spooky Halloween ASCII art enclosed in triple backticks. Keep text under 3 sentences."},
                 {"role": "user", "content": cmd}
             ]
         })
