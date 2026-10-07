@@ -23,7 +23,7 @@ export default async function handler(req, res) {
                 "X-Title": "pump.kin"
             },
             body: JSON.stringify({
-                "model": "meta-llama/llama-3.1-8b-instruct:free",
+                "model": "meta-llama/llama-3.1-70b-instruct",
                 "messages": messages
             })
         });
