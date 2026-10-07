@@ -3,36 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pump.kin // GHOST_CHAIN</title>
+    <title>pump.kin</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Heavy CRT Overlays -->
-    <div class="scanlines"></div>
-    <div class="crt-overlay"></div>
-    <div class="noise"></div>
     
-    <div class="screen-container">
-        <!-- Boot Screen -->
+    <!-- Cinematic Looping Background -->
+    <video class="bg-video" src="IMG_1501.MOV" autoplay loop muted playsinline></video>
+    <div class="bg-overlay"></div>
+
+    <!-- Frosted Glass Terminal -->
+    <div class="glass-container">
+        <!-- Minimal Boot Screen -->
         <div id="boot-screen">
-            <pre class="glitch" id="ascii-pumpkin">
-      ___
-   ___/   \___
-  /   _   _   \
- /   / \ / \   \
-|    \_/ \_/    |
- \      X      /
-  \___/   \___/
-            </pre>
-            <div id="boot-text">PUMP.KIN OS v6.6.6 [BIOS MEMORY CHECK... OK]</div>
-            <div id="boot-details"></div>
+            <div id="boot-text">ESTABLISHING LINK...</div>
         </div>
 
         <!-- Main Terminal -->
         <div class="terminal" id="terminal" style="display: none;">
             <div id="output"></div>
             <div class="input-line" id="input-container">
-                <span class="prompt">oracle@pump.kin:~$</span>
+                <span class="prompt">guest@pump.kin ❯</span>
                 <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
             </div>
         </div>

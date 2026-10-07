@@ -1,21 +1,4 @@
-:root {
-    --phosphor-color: #ff8800; /* Rich amber phosphor */
-    --phosphor-dim: #994400;
-    --bg-color: #050200;
-    
-    /* Authentic phosphor glow and chromatic aberration */
-    --text-glow: 
-        0 0 2px rgba(255, 136, 0, 0.8),
-        0 0 8px rgba(255, 136, 0, 0.4),
-        0 0 15px rgba(255, 136, 0, 0.2),
-        -1px 0 1px rgba(255, 0, 0, 0.4), /* slight red shift */
-        1px 0 1px rgba(0, 0, 255, 0.4);  /* slight blue shift */
-}
-
-@font-face {
-    font-family: 'VT323'; /* Optional: If they have it, it looks great, otherwise fallback to monospace */
-    src: local('VT323'), local('Courier New');
-}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap');
 
 * {
     box-sizing: border-box;
@@ -24,119 +7,77 @@
 }
 
 body {
-    background-color: #000;
-    color: var(--phosphor-color);
-    font-family: 'VT323', 'Courier New', Courier, monospace;
-    font-size: 18px;
+    background-color: #050505;
+    color: #e0e0e0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 300;
     height: 100vh;
     overflow: hidden;
-    position: relative;
-    text-shadow: var(--text-glow);
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-/* 
-  ========================================
-  AUTHENTIC CRT SHADERS & OVERLAYS
-  ========================================
-*/
-
-/* 1. Curvature & Bezel Shadow (Makes the screen look convex like an old tube) */
-.crt-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.95) 100%);
-    box-shadow: inset 0 0 100px rgba(0,0,0,1);
-    pointer-events: none;
-    z-index: 50;
-}
-
-/* 2. Interlaced Scanlines (Sharp, dense lines) */
-.scanlines {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0) 50%,
-        rgba(0,0,0,0.3) 50%
-    );
-    background-size: 100% 4px;
-    z-index: 40;
-    pointer-events: none;
-    opacity: 0.8;
-}
-
-/* 3. Screen Flicker (Subtle rolling brightness changes) */
-body {
-    animation: crt-flicker 0.15s infinite;
-}
-
-@keyframes crt-flicker {
-    0%   { opacity: 0.95; }
-    50%  { opacity: 0.90; }
-    100% { opacity: 0.98; }
-}
-
-/* 4. The physical screen container with slight bulge distortion */
-.screen-container {
-    width: 100vw;
-    height: 100vh;
-    padding: 40px 50px;
-    background-color: var(--bg-color);
-    position: relative;
-    z-index: 10;
-    
-    /* Screen curvature illusion */
-    transform: perspective(1000px) rotateX(1deg) rotateY(0deg) scale(0.98);
     display: flex;
-    flex-direction: column;
-}
-
-/* 
-  ========================================
-  CONTENT STYLING
-  ========================================
-*/
-
-/* Boot Screen */
-#boot-screen {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#ascii-pumpkin {
-    font-size: 20px;
-    line-height: 1.2;
-    margin-bottom: 30px;
-    white-space: pre;
-    color: var(--phosphor-dim);
-    animation: phosphor-flicker 4s infinite;
+/* Cinematic Background */
+.bg-video {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    filter: grayscale(80%) contrast(120%) brightness(0.6);
 }
 
-#boot-text {
-    font-size: 24px;
-    margin-bottom: 10px;
+.bg-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 2;
+    pointer-events: none;
 }
 
-#boot-details {
-    font-size: 14px;
-    color: var(--phosphor-dim);
-    text-align: center;
-    white-space: pre-wrap;
-    min-height: 100px;
+/* Frosted Glass Container */
+.glass-container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 800px;
+    height: 75vh;
+    background: rgba(15, 15, 15, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 35px;
 }
 
-/* Main Terminal */
+/* Minimal Boot Screen */
+#boot-screen {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Sleek Terminal */
 .terminal {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    /* Hide scrollbar */
     scrollbar-width: none; 
 }
 .terminal::-webkit-scrollbar { display: none; }
@@ -145,33 +86,39 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Keeps text starting from bottom like real terminal */
-    margin-bottom: 5px;
+    justify-content: flex-end;
+    margin-bottom: 15px;
 }
 
 .output-line {
-    margin-bottom: 4px;
-    line-height: 1.3;
+    margin-bottom: 8px;
+    line-height: 1.6;
     white-space: pre-wrap;
     word-wrap: break-word;
+    color: #d1d5db;
 }
 
-/* Media handling */
+.output-line strong {
+    color: #ff6b00; /* Subtle orange accent for Halloween */
+    font-weight: 700;
+}
+
+/* Media rendering inside glass */
 .media-container {
     margin: 15px 0;
-    max-width: 60%;
-    border: 1px solid var(--phosphor-color);
-    padding: 2px;
+    max-width: 70%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .media-container img, 
 .media-container video {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     display: block;
-    /* Convert images to look like monochrome green/amber screen renders */
-    filter: sepia(100%) hue-rotate(350deg) saturate(300%) contrast(200%) brightness(0.8) grayscale(50%);
-    opacity: 0.9;
+    filter: brightness(0.85);
 }
 
 /* Input Area */
@@ -179,31 +126,26 @@ body {
     display: flex;
     align-items: center;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.8s ease;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 15px;
 }
 .input-line.visible { opacity: 1; }
 
 .prompt {
-    margin-right: 12px;
+    margin-right: 15px;
+    color: #9ca3af;
+    font-weight: 700;
 }
 
 #command-input {
     background: transparent;
     border: none;
-    color: var(--phosphor-color);
+    color: #fff;
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
-    letter-spacing: inherit;
     flex-grow: 1;
     outline: none;
-    text-shadow: inherit;
-    caret-color: var(--phosphor-color);
-}
-
-/* Occasional random glitch on boot image */
-@keyframes phosphor-flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; transform: scale(1); filter: blur(0px); }
-    20%, 24%, 55% { opacity: 0.4; transform: scale(1.01) translate(1px, 1px); filter: blur(1px); }
-    22% { opacity: 0.8; transform: scale(0.99) translate(-1px, 0); }
+    caret-color: #ff6b00;
 }

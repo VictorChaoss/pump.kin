@@ -3,7 +3,6 @@ const commandInput = document.getElementById('command-input');
 const inputContainer = document.getElementById('input-container');
 const bootScreen = document.getElementById('boot-screen');
 const terminal = document.getElementById('terminal');
-const bootDetails = document.getElementById('boot-details');
 
 let dailyContent = {};
 const todayStr = '2026-10-07'; 
@@ -11,54 +10,27 @@ let commandHistory = [];
 let historyIndex = -1;
 let isTyping = false;
 
-// Fast authentic boot sequence
-const bootLines = [
-    "CHECKING NVRAM ..................... OK",
-    "LOADING KERNEL MODS ................ OK",
-    "MOUNTING GHOST CHAIN ............... /dev/hda1",
-    "READING BLOCKCHAIN STATE ........... BLK 666",
-    "ESTABLISHING ORACLE LINK ........... SECURE",
-    "DECRYPTING VEIL PROTOCOLS .......... DONE",
-    " ",
-    "READY."
-];
-
-// Start
+// Clean, slow fade-in boot
 fetch('content.json')
     .then(response => response.json())
     .then(data => {
         dailyContent = data;
-        setTimeout(runBiosBoot, 1000);
+        setTimeout(startTerminal, 2500); // Wait 2.5s on "ESTABLISHING LINK..."
     })
     .catch(error => {
-        setTimeout(runBiosBoot, 1000);
+        setTimeout(startTerminal, 2500);
     });
 
-function runBiosBoot() {
-    let lineIdx = 0;
-    
-    function nextLine() {
-        if (lineIdx < bootLines.length) {
-            bootDetails.innerHTML += bootLines[lineIdx] + "<br>";
-            lineIdx++;
-            setTimeout(nextLine, Math.random() * 100 + 50); // fast bios text
-        } else {
-            setTimeout(switchToTerminal, 800);
-        }
-    }
-    nextLine();
-}
-
-function switchToTerminal() {
+function startTerminal() {
     bootScreen.style.display = 'none';
     terminal.style.display = 'flex';
     
-    // Clear terminal history if needed, but we start fresh
-    printInstant("pump.kin OS v6.6.6 [Terminal Access Granted]");
-    printInstant("Type 'help' for available commands.\n");
-    
-    inputContainer.classList.add('visible');
-    commandInput.focus();
+    setTimeout(() => {
+        printInstant("<strong>pump.kin</strong> // connected.");
+        printInstant("type 'help' to begin.\n");
+        inputContainer.classList.add('visible');
+        commandInput.focus();
+    }, 300);
 }
 
 commandInput.addEventListener('keydown', function(e) {
@@ -75,7 +47,7 @@ commandInput.addEventListener('keydown', function(e) {
         historyIndex = commandHistory.length;
         this.value = '';
         
-        printInstant(`oracle@pump.kin:~$ ${command}`);
+        printInstant(`<span style="color: #6b7280;">guest@pump.kin ❯</span> ${command}`);
         processCommand(command);
     } else if (e.key === 'ArrowUp') {
         e.preventDefault();
@@ -99,6 +71,7 @@ document.addEventListener('click', () => {
     if (!isTyping) commandInput.focus();
 });
 
+// Sleek, very fast typing effect
 function runTypingEffect(lines, callback) {
     isTyping = true;
     inputContainer.style.opacity = '0'; 
@@ -112,19 +85,19 @@ function runTypingEffect(lines, callback) {
             div.className = 'output-line';
             outputDiv.appendChild(div);
             
-            if (line.includes('<div') || line.includes('<span') || line.includes('<pre>')) {
+            if (line.includes('<div') || line.includes('<span') || line.includes('<pre>') || line.includes('<strong>')) {
                 div.innerHTML = line;
                 lineIndex++;
                 scrollToBottom();
-                setTimeout(typeNextLine, 100);
+                setTimeout(typeNextLine, 50);
                 return;
             }
 
             let charIndex = 0;
             function typeChar() {
                 if (charIndex < line.length) {
-                    // Very fast typing for authenticity
-                    const speed = line.length > 50 ? 1 : Math.random() * 10 + 5;
+                    // Very fast typing for premium feel
+                    const speed = line.length > 50 ? 1 : Math.random() * 5 + 2;
                     div.innerHTML += line.charAt(charIndex);
                     charIndex++;
                     scrollToBottom();
@@ -167,17 +140,13 @@ function processCommand(cmd) {
     switch(mainCmd) {
         case 'help':
             responseLines = [
-                "Terminal Commands:",
-                "  help    - Display this manual",
-                "  date    - Synchronize block time",
-                "  unlock  - Decrypt today's on-chain truth",
-                "  ask     - Query the oracle (e.g., 'ask what happens on halloween')",
-                "  clear   - Purge terminal memory"
+                "commands:",
+                "  help    - display manual",
+                "  unlock  - access on-chain fragment",
+                "  ask     - query oracle (e.g. 'ask what happens on halloween')",
+                "  clear   - clear terminal"
             ];
             runTypingEffect(responseLines);
-            break;
-        case 'date':
-            runTypingEffect([`CURRENT BLOCK DATE: ${todayStr}`, "THE HALVING OF SOULS IS IMMINENT."]);
             break;
         case 'clear':
             outputDiv.innerHTML = '';
@@ -186,24 +155,24 @@ function processCommand(cmd) {
         case 'unlock':
             const dayContent = dailyContent[todayStr];
             if (dayContent) {
-                let lines = ["DECRYPTING ON-CHAIN DATA..."];
+                let lines = ["retrieving fragment..."];
                 lines.push(dayContent.text);
                 
                 if (dayContent.mediaType === 'image') {
                     lines.push(`<div class="media-container"><img src="${dayContent.mediaSrc}" alt="Truth Fragment"></div>`);
                 } else if (dayContent.mediaType === 'video') {
-                    lines.push(`<div class="media-container"><video src="${dayContent.mediaSrc}" controls autoplay loop></video></div>`);
+                    lines.push(`<div class="media-container"><video src="${dayContent.mediaSrc}" controls autoplay loop muted></video></div>`);
                 }
                 runTypingEffect(lines);
             } else {
-                runTypingEffect(["BLOCK NOT YET MINED.", "CHECK BACK TOMORROW."]);
+                runTypingEffect(["fragment not yet available."]);
             }
             break;
         case 'ask':
             if (!subCmd) {
-                runTypingEffect(["You must offer a query to the oracle."]);
+                runTypingEffect(["query required."]);
             } else {
-                runTypingEffect(["CONSULTING THE ON-CHAIN ORACLE...", "..."], () => {
+                runTypingEffect(["querying oracle..."], () => {
                     fetch("https://openrouter.ai/api/v1/chat/completions", {
                         method: "POST",
                         headers: {
@@ -222,24 +191,21 @@ function processCommand(cmd) {
                     .then(data => {
                         let reply = data.choices && data.choices[0] && data.choices[0].message.content
                                         ? data.choices[0].message.content 
-                                        : "SYSTEM ERROR: ORACLE IS CORRUPTED";
+                                        : "error: oracle unreachable";
                         
                         if (!reply.includes('<span class=')) {
                             reply = reply.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         }
                         
-                        runTypingEffect(["<pre style='font-family: inherit; font-size: inherit; margin: 0; white-space: pre-wrap;'>" + reply + "</pre>"]);
+                        runTypingEffect(["<pre style='font-family: inherit; font-size: inherit; margin: 0; white-space: pre-wrap; color: #ff6b00;'>" + reply + "</pre>"]);
                     })
                     .catch(err => {
-                        runTypingEffect(["CONNECTION TO ETHER LOST."]);
+                        runTypingEffect(["error: connection lost."]);
                     });
                 });
             }
             break;
-        case 'sudo':
-            runTypingEffect(["YOU DO NOT HAVE THE PRIVATE KEYS FOR THIS."]);
-            break;
         default:
-            runTypingEffect([`Command not recognized: ${mainCmd}`]);
+            runTypingEffect([`command not found: ${mainCmd}`]);
     }
 }
