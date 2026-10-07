@@ -1,17 +1,22 @@
 {
     "2026-10-07": {
-        "text": "BLOCK 0 // GENESIS_RITUAL\nTHE VEIL IS THINNING. FIRST ON-CHAIN FRAGMENT DECRYPTED. THE SMART CONTRACT IS SEALED IN BLOOD.",
-        "mediaType": "image",
-        "mediaSrc": "IMAGE 2026-10-07 18:10:26.jpg"
+        "title": "RITUAL 001: THE AWAKENING",
+        "lore": "The pump.kin entity has breached containment from its goon cave. The blockchain is bleeding ectoplasm. It whispers of a mega-pump on the 31st.",
+        "wisdom": "Tung tung... sigma rule #666: Always buy the dip before the ghosts liquidate your soul. Sahur is near, prepare the feast.",
+        "puzzle_hint": "To unlock tomorrow's metadata, you must prove your aura. Ask the Oracle: 'Who is the true sigma of Halloween?'",
+        "answer": "dracula",
+        "success_msg": "AURA +10000. You have survived Ritual 001. The spirits nod in approval.",
+        "mediaType": "none",
+        "mediaSrc": ""
     },
     "2026-10-08": {
-        "text": "BLOCK 1 // MEMPOOL_STATIC\nLIQUIDITY POOLS ARE DRAINING. SECOND FRAGMENT LOCATED IN THE DARK WEB GRAVEYARD.",
-        "mediaType": "image",
-        "mediaSrc": "IMAGE 2026-10-07 18:10:28.jpg"
-    },
-    "2026-10-09": {
-        "text": "BLOCK 2 // SIGNAL_DISTORTION\nHASH RATE DROPPING. VISUAL EVIDENCE OF THE ENTITY CAPTURED. DIAMOND HANDS WILL NOT SAVE YOU.",
-        "mediaType": "video",
-        "mediaSrc": "IMG_1501.MOV"
+        "title": "RITUAL 002: PHANTOM TAX",
+        "lore": "The ghost of Satoshi was spotted doing the griddy on the genesis block. Gas fees are rising, but it's just the spirits demanding their phantom tax.",
+        "wisdom": "Never let a vampire drain your liquidity. Stay mewing, stay holding.",
+        "puzzle_hint": "The entity demands a sacrifice of brain cells. Ask the Oracle about the 'skibidi graveyard'.",
+        "answer": "bone",
+        "success_msg": "SACRIFICE ACCEPTED. Your bags are blessed with unholy rizz.",
+        "mediaType": "none",
+        "mediaSrc": ""
     }
 }

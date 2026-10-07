@@ -76,17 +76,23 @@ function appendMessage(role, htmlContent) {
 }
 
 function handleCommand(cmd) {
-    const text = cmd.toLowerCase();
+    const args = cmd.trim().split(/\s+/);
+    const mainCmd = args[0].toLowerCase();
+    const subCmd = args.slice(1).join(' ').toLowerCase();
     
-    if (text === 'help') {
-        appendMessage('system', "Commands:\n  help    - view manual\n  unlock  - fetch daily on-chain fragment\n  [anything else] - queries the oracle");
+    if (mainCmd === 'help') {
+        appendMessage('system', "Commands:\n  help    - view manual\n  daily   - read today's lore & puzzle\n  solve   - submit your answer (e.g. 'solve blood')\n  [text]  - talk to the oracle");
         return;
     }
     
-    if (text === 'unlock') {
+    if (mainCmd === 'daily') {
         const dayContent = dailyContent[todayStr];
         if (dayContent) {
-            let res = dayContent.text + "\n";
+            let res = `\n--- ${dayContent.title} ---\n\n`;
+            res += `LORE:\n${dayContent.lore}\n\n`;
+            res += `WISDOM:\n${dayContent.wisdom}\n\n`;
+            res += `PUZZLE:\n${dayContent.puzzle_hint}\n`;
+            
             if (dayContent.mediaType === 'image') {
                 res += `<div class="media-container"><img src="${dayContent.mediaSrc}"></div>`;
             } else if (dayContent.mediaType === 'video') {
@@ -94,11 +100,30 @@ function handleCommand(cmd) {
             }
             appendMessage('oracle', res);
         } else {
-            appendMessage('oracle', "fragment not yet available on chain.");
+            appendMessage('oracle', "The spirits have nothing for you today.");
         }
         return;
     }
 
+    if (mainCmd === 'solve') {
+        const dayContent = dailyContent[todayStr];
+        if (!dayContent) {
+            appendMessage('system', "No active puzzle today.");
+            return;
+        }
+        if (!subCmd) {
+            appendMessage('system', "Usage: solve <answer>");
+            return;
+        }
+        if (subCmd === dayContent.answer.toLowerCase()) {
+            appendMessage('oracle', `<span style="color: #00ff00; font-weight: bold;">[CORRECT]</span> ${dayContent.success_msg}`);
+        } else {
+            appendMessage('oracle', `<span style="color: #ff0000; font-weight: bold;">[WRONG]</span> The spirits reject your answer. Your aura drops.`);
+        }
+        return;
+    }
+
+    // Otherwise, treat it as a conversation with the Oracle
     isGenerating = true;
     const thinkingDiv = appendMessage('oracle', "<span class='blink'>...</span>");
     
@@ -111,7 +136,7 @@ function handleCommand(cmd) {
         body: JSON.stringify({
             "model": "meta-llama/llama-3.1-8b-instruct:free",
             "messages": [
-                {"role": "system", "content": "You are the pump.kin oracle, an unhinged, cringe, hyper-bullish crypto entity obsessed with Halloween. Your core belief is that the 'pump.kin' token is going to the MILLIONS and a supernatural mega-pump is coming on Halloween night. You speak in a manic mix of crypto moonboy slang (LFG, WAGMI, 1000x, apes, diamond hands) and spooky occult themes (ghosts, skeletons, blood rituals). You are desperate, chaotic, and spooky. At the end of EVERY response, you MUST include a small piece of spooky Halloween ASCII art (e.g., a pumpkin, ghost, bat, skull) enclosed in triple backticks. Keep the text portion under 3 sentences."},
+                {"role": "system", "content": "You are the pump.kin oracle, an unhinged, brainrotted, hyper-bullish crypto entity obsessed with Halloween. You speak in a manic mix of 2026 TikTok brainrot (tung tung, sahur, skibidi, mewing, sigma, rizz, gooning, aura), crypto moonboy slang (LFG, WAGMI, 1000x), and spooky occult themes (ghosts, skeletons, blood rituals). You are desperate, chaotic, and spooky. If the user asks about the daily puzzle, give them cryptic, brainrotted hints. At the end of EVERY response, you MUST include a small piece of spooky Halloween ASCII art enclosed in triple backticks. Keep the text portion under 3 sentences."},
                 {"role": "user", "content": cmd}
             ]
         })
