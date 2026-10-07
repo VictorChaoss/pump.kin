@@ -201,7 +201,8 @@ body {
     background: linear-gradient(90deg, rgba(255, 102, 0, 0.08) 0%, transparent 100%);
 }
 .message.oracle::before {
-    content: "ORACLE RESPONSE: \n";
+    content: "ORACLE RESPONSE: \A";
+    white-space: pre-wrap;
     color: #ff6600;
     font-weight: 700;
     text-shadow: 0 0 5px rgba(255, 102, 0, 0.8);
