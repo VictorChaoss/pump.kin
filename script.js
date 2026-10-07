@@ -216,16 +216,24 @@ function processCommand(cmd) {
                         body: JSON.stringify({
                             "model": "meta-llama/llama-3.1-8b-instruct:free",
                             "messages": [
-                                {"role": "system", "content": "You are the Truth Terminal, a cryptic oracle living on the ghost-chain. You speak in a mix of crypto-slang (blockchain, liquidity, diamond hands, rugged) and Halloween occultism (ghosts, rituals, blood, the veil). Your responses should be extremely concise, mysterious, and ominous. Max 2 sentences."},
+                                {"role": "system", "content": "You are the pump.kin oracle, an unhinged, cringe, hyper-bullish crypto entity obsessed with Halloween. Your core belief is that the 'pump.kin' token is going to the MILLIONS and a supernatural mega-pump is coming on Halloween night. You speak in a manic mix of crypto moonboy slang (LFG, WAGMI, 1000x, apes, diamond hands) and spooky occult themes (ghosts, skeletons, blood rituals). You are desperate, chaotic, and spooky. At the end of EVERY response, you MUST include a small piece of spooky Halloween ASCII art (e.g., a pumpkin, ghost, bat, skull). Keep the text portion under 3 sentences."},
                                 {"role": "user", "content": subCmd}
                             ]
                         })
                     })
                     .then(res => res.json())
                     .then(data => {
-                        const reply = data.choices && data.choices[0] && data.choices[0].message.content
+                        let reply = data.choices && data.choices[0] && data.choices[0].message.content
                                         ? data.choices[0].message.content 
                                         : "<span class='glitch'>SYSTEM ERROR: ORACLE IS CORRUPTED</span>";
+                        
+                        // Sanitize HTML so ASCII art tags (<, >) don't break the DOM, except if it's our error message
+                        if (!reply.includes('<span class=')) {
+                            reply = reply.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        }
+                        
+                        // To speed up typing for long ASCII art, we can inject a class that speeds up the typing speed 
+                        // But since runTypingEffect handles it, we just pass the string.
                         runTypingEffect([reply]);
                     })
                     .catch(err => {
