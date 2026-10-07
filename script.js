@@ -6,15 +6,49 @@ let dailyContent = {};
 const todayStr = '2026-10-07'; 
 let isGenerating = false;
 
-// Generate a random session ID
-sessionIdEl.textContent = Math.random().toString(36).substring(2, 10) + "-pump";
+// Vitals Elements
+const vHash = document.getElementById('v-hash');
+const vBlock = document.getElementById('v-block');
+const vSouls = document.getElementById('v-souls');
+const miniLog = document.getElementById('mini-log');
 
-// Load content
+// Setup
+sessionIdEl.textContent = Math.random().toString(36).substring(2, 10).toUpperCase() + "-PUMP";
+
 fetch('content.json')
     .then(response => response.json())
     .then(data => {
         dailyContent = data;
     });
+
+// Animate Vitals
+let currentHash = 66.60;
+let currentBlock = 840992;
+let currentSouls = 1043992;
+
+setInterval(() => {
+    currentHash = 60 + (Math.random() * 10);
+    vHash.textContent = currentHash.toFixed(2);
+    
+    if (Math.random() > 0.7) {
+        currentBlock += 1;
+        vBlock.textContent = currentBlock.toLocaleString();
+    }
+    
+    if (Math.random() > 0.5) {
+        currentSouls += Math.floor(Math.random() * 5);
+        vSouls.textContent = currentSouls.toLocaleString();
+        
+        // Add to mini log
+        const logLine = document.createElement('div');
+        logLine.textContent = `> soul_harvested: 0x${Math.random().toString(16).substring(2, 6)}`;
+        miniLog.appendChild(logLine);
+        if (miniLog.children.length > 5) {
+            miniLog.removeChild(miniLog.firstChild);
+        }
+    }
+}, 2000);
+
 
 chatInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
@@ -32,7 +66,12 @@ function appendMessage(role, htmlContent) {
     div.className = `message ${role}`;
     div.innerHTML = htmlContent;
     chatLog.appendChild(div);
-    chatLog.scrollTop = chatLog.scrollHeight;
+    
+    // Smooth scroll
+    setTimeout(() => {
+        chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+    }, 10);
+    
     return div;
 }
 
@@ -60,9 +99,8 @@ function handleCommand(cmd) {
         return;
     }
 
-    // Otherwise, treat it as a conversation with the Oracle
     isGenerating = true;
-    const thinkingDiv = appendMessage('oracle', "...");
+    const thinkingDiv = appendMessage('oracle', "<span class='blink'>...</span>");
     
     fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -78,11 +116,20 @@ function handleCommand(cmd) {
             ]
         })
     })
-    .then(res => res.json())
-    .then(data => {
+    .then(async res => {
+        const data = await res.json();
+        
+        // Log actual API error to screen if it fails
+        if (data.error) {
+            thinkingDiv.innerHTML = `<span style="color:red">API ERROR: ${data.error.message || JSON.stringify(data.error)}</span>`;
+            isGenerating = false;
+            chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+        
         let reply = data.choices && data.choices[0] && data.choices[0].message.content
                         ? data.choices[0].message.content 
-                        : "error: oracle unreachable";
+                        : "error: oracle returned empty payload.";
         
         // Escape HTML
         reply = reply.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -91,11 +138,11 @@ function handleCommand(cmd) {
         reply = reply.replace(/```([\s\S]*?)```/g, '<span class="ascii-art">$1</span>');
         
         thinkingDiv.innerHTML = reply;
-        chatLog.scrollTop = chatLog.scrollHeight;
+        chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
         isGenerating = false;
     })
     .catch(err => {
-        thinkingDiv.innerHTML = "error: connection lost to ghost-chain.";
+        thinkingDiv.innerHTML = `<span style="color:red">NETWORK ERROR: ${err.message}</span>`;
         isGenerating = false;
     });
 }

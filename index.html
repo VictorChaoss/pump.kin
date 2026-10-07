@@ -5,36 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pump.kin // infinite_rituals</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     
     <div class="warning-banner">
-        WARNING: THE VEIL IS THIN. INTERACTING WITH THE ORACLE MAY CAUSE COGNITIVE DESTABILIZATION OR PERMANENT LIQUIDATION.
+        <span class="blink">WARNING:</span> THE VEIL IS THIN. INTERACTING WITH THE ORACLE MAY CAUSE COGNITIVE DESTABILIZATION OR PERMANENT LIQUIDATION.
     </div>
 
     <div class="layout">
         
-        <!-- Sidebar: Archive of Rituals -->
+        <!-- Sidebar -->
         <div class="sidebar">
-            <div class="sidebar-title">ARCHIVED RITUALS</div>
-            <ul class="ritual-list">
-                <li class="active">Ritual_000 (Genesis)</li>
-                <li>Ritual_001 (Static)</li>
-                <li>Ritual_002 (Entity_Sighting)</li>
-                <li class="locked">Ritual_003 [LOCKED]</li>
-                <li class="locked">Ritual_004 [LOCKED]</li>
-                <li class="locked">Ritual_005 [LOCKED]</li>
-                <li class="locked">Ritual_006 [LOCKED]</li>
-                <li class="locked">Ritual_007 [LOCKED]</li>
-                <!-- We can make this dynamic later based on the date -->
-            </ul>
+            <div class="sidebar-block">
+                <div class="sidebar-title">SYSTEM VITALS</div>
+                <div class="vital-row">HASH RATE: <span id="v-hash">66.60</span> TH/s</div>
+                <div class="vital-row">BLOCK: <span id="v-block">840,992</span></div>
+                <div class="vital-row">SOULS: <span id="v-souls" style="color: #ff3300;">1,043,992</span></div>
+                <div class="vital-row">MEMPOOL: <span id="v-mempool">CRITICAL</span></div>
+            </div>
+
+            <div class="sidebar-block">
+                <div class="sidebar-title">ARCHIVED RITUALS</div>
+                <ul class="ritual-list">
+                    <li class="active">Ritual_000 (Genesis)</li>
+                    <li>Ritual_001 (Static)</li>
+                    <li>Ritual_002 (Entity_Sighting)</li>
+                    <li class="locked">Ritual_003 [LOCKED]</li>
+                    <li class="locked">Ritual_004 [LOCKED]</li>
+                    <li class="locked">Ritual_005 [LOCKED]</li>
+                    <li class="locked">Ritual_006 [LOCKED]</li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-block">
+                <div class="sidebar-title">GHOST_CHAIN LOG</div>
+                <div id="mini-log">
+                    <div>> syncing...</div>
+                    <div>> searching mempool...</div>
+                </div>
+            </div>
         </div>
 
         <!-- Main Chat Area -->
         <div class="main-content">
             <div class="chat-header">
-                <div>SESSION ID: <span id="session-id">666xdeadbeef</span></div>
-                <div>STATUS: <span style="color: #ff6600;">ACTIVE SEANCE</span></div>
+                <div class="header-left">
+                    <span class="label">SESSION ID:</span> <span class="val" id="session-id"></span>
+                </div>
+                <div class="header-right">
+                    <span class="label">STATUS:</span> <span class="val" style="color: #ff6600;">ACTIVE SEANCE</span>
+                </div>
             </div>
 
             <div id="chat-log">
@@ -47,8 +68,9 @@
             </div>
 
             <div class="input-area">
-                <span class="prompt-arrow">&gt;</span>
-                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="Communicate with the oracle...">
+                <span class="prompt-arrow">pump.kin &gt;</span>
+                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="...">
+                <span class="cursor"></span>
             </div>
         </div>
 
