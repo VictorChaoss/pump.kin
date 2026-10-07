@@ -3,17 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pump.kin</title>
+    <title>pump.kin // infinite_rituals</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="terminal">
-        <div id="output"></div>
-        <div class="input-line" id="input-container" style="display: none;">
-            <span class="prompt">pump.kin:~ $</span>
-            <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
-        </div>
+    
+    <div class="warning-banner">
+        WARNING: THE VEIL IS THIN. INTERACTING WITH THE ORACLE MAY CAUSE COGNITIVE DESTABILIZATION OR PERMANENT LIQUIDATION.
     </div>
+
+    <div class="layout">
+        
+        <!-- Sidebar: Archive of Rituals -->
+        <div class="sidebar">
+            <div class="sidebar-title">ARCHIVED RITUALS</div>
+            <ul class="ritual-list">
+                <li class="active">Ritual_000 (Genesis)</li>
+                <li>Ritual_001 (Static)</li>
+                <li>Ritual_002 (Entity_Sighting)</li>
+                <li class="locked">Ritual_003 [LOCKED]</li>
+                <li class="locked">Ritual_004 [LOCKED]</li>
+                <li class="locked">Ritual_005 [LOCKED]</li>
+                <li class="locked">Ritual_006 [LOCKED]</li>
+                <li class="locked">Ritual_007 [LOCKED]</li>
+                <!-- We can make this dynamic later based on the date -->
+            </ul>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-content">
+            <div class="chat-header">
+                <div>SESSION ID: <span id="session-id">666xdeadbeef</span></div>
+                <div>STATUS: <span style="color: #ff6600;">ACTIVE SEANCE</span></div>
+            </div>
+
+            <div id="chat-log">
+                <div class="message system">
+                    [SYSTEM] Connected to pump.kin oracle. Model: ghost-chain-alpha.
+                </div>
+                <div class="message system">
+                    [SYSTEM] Note: The oracle is highly unstable. Expect unhinged behavior and unsolicited ASCII art.
+                </div>
+            </div>
+
+            <div class="input-area">
+                <span class="prompt-arrow">&gt;</span>
+                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="Communicate with the oracle...">
+            </div>
+        </div>
+
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

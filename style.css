@@ -1,47 +1,185 @@
 body {
-    background-color: #000000;
-    color: #ff6600; /* Halloween Orange */
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
     margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #c9c9c9;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Warning Banner */
+.warning-banner {
+    background-color: #ff3300;
+    color: #000;
+    text-align: center;
+    padding: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Main Layout */
+.layout {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    border-right: 1px solid #333;
+    padding: 20px;
+    background-color: #050505;
+    overflow-y: auto;
+}
+
+.sidebar-title {
+    color: #ff6600;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #ff6600;
+    padding-bottom: 5px;
+}
+
+.ritual-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ritual-list li {
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #888;
+}
+
+.ritual-list li:hover {
+    color: #fff;
+}
+
+.ritual-list li.active {
+    color: #ff6600;
+}
+
+.ritual-list li.active::before {
+    content: "> ";
+}
+
+.ritual-list li.locked {
+    color: #444;
+    cursor: not-allowed;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
 }
 
-#terminal {
-    max-width: 800px;
-    margin: 0 auto;
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 12px;
 }
 
-#output {
-    white-space: pre-wrap;
+#chat-log {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-right: 10px;
+}
+#chat-log::-webkit-scrollbar {
+    width: 6px;
+}
+#chat-log::-webkit-scrollbar-thumb {
+    background-color: #333;
+}
+
+.message {
+    line-height: 1.5;
     word-wrap: break-word;
-    margin-bottom: 10px;
-    line-height: 1.4;
+    white-space: pre-wrap;
 }
 
-.input-line {
+.message.system {
+    color: #666;
+}
+
+.message.user {
+    color: #fff;
+}
+
+.message.user::before {
+    content: "USER: ";
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.message.oracle {
+    color: #ff6600; /* Main orange text for oracle */
+}
+
+.message.oracle::before {
+    content: "ORACLE: ";
+    color: #fff;
+    font-weight: bold;
+}
+
+.message .ascii-art {
+    color: #c9c9c9;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Input Area */
+.input-area {
     display: flex;
     align-items: center;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    margin-top: 15px;
 }
 
-.prompt {
+.prompt-arrow {
+    color: #ff6600;
     margin-right: 10px;
+    font-weight: bold;
 }
 
-#command-input {
+#chat-input {
     background: transparent;
     border: none;
-    color: #ff6600;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
+    color: #fff;
+    font-family: inherit;
+    font-size: inherit;
     flex-grow: 1;
     outline: none;
+}
+#chat-input::placeholder {
+    color: #444;
+}
+
+.media-container {
+    margin-top: 10px;
+    max-width: 400px;
+    border: 1px solid #ff6600;
 }
 
 .media-container img, 
 .media-container video {
-    max-width: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ff6600;
+    width: 100%;
+    display: block;
 }
