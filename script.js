@@ -7,6 +7,15 @@ const today = new Date();
 const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
 let isGenerating = false;
 
+// Setup session ID and load lore
+sessionIdEl.textContent = Math.random().toString(36).substring(2, 10).toUpperCase() + "-PUMP";
+fetch('content.json')
+    .then(response => response.json())
+    .then(data => {
+        dailyContent = data;
+    })
+    .catch(err => console.error("Error loading lore:", err));
+
 // Vitals Elements
 const vHarvest = document.getElementById('v-harvest');
 const vCountdown = document.getElementById('v-countdown');
