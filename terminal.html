@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pump.kin // THE HARVEST</title>
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="warning-banner">
+        <span class="blink">WARNING:</span> DO NOT SELL. FEED THE HARVEST. ONLY DIAMOND HANDS SURVIVE THE REAPING ON OCTOBER 31ST.
+    </div>
+
+    <div class="layout">
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-logo">
+<pre class="ascii-pumpkin">
+      ___
+   ___/   \___
+  /   _   _   \
+ /   / \ / \   \
+|    \_/ \_/    |
+ \      X      /
+  \___/   \___/
+</pre>
+            </div>
+
+            <div class="sidebar-block">
+                <div class="sidebar-title">THE HARVEST</div>
+                <div class="vital-row">GATHERED: <span id="v-harvest" style="color: #00ff00;">0.00 SOL</span></div>
+                <div class="vital-row">TIME LEFT: <span id="v-countdown">23 DAYS</span></div>
+                <div class="vital-row">STATUS: <span id="v-mempool" style="color: #ff6600;">FATTENING</span></div>
+            </div>
+
+            <div class="sidebar-block">
+                <div class="sidebar-title">DAILY TRANSMISSIONS</div>
+                <ul class="ritual-list">
+                    <li class="active" onclick="handleCommand('daily')">Drop_001 (Awakening)</li>
+                    <li class="locked">Drop_002 [SEALED]</li>
+                    <li class="locked">Drop_003 [SEALED]</li>
+                    <li class="locked">Drop_004 [SEALED]</li>
+                    <li class="locked">Drop_005 [SEALED]</li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-block">
+                <div class="sidebar-title">ORACLE COMMANDS</div>
+                <ul class="ritual-list" style="color: #8b5cf6;">
+                    <li onclick="document.getElementById('chat-input').value='daily'; document.getElementById('chat-input').focus();"><code>> daily</code> (read lore)</li>
+                    <li onclick="document.getElementById('chat-input').value='solve '; document.getElementById('chat-input').focus();"><code>> solve [answer]</code></li>
+                    <li onclick="document.getElementById('chat-input').value='tell me a spooky crypto story'; document.getElementById('chat-input').focus();"><code>> tell me a story</code></li>
+                    <li><code>> [any text]</code> (chat)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-content">
+            <div class="chat-header">
+                <div class="header-left">
+                    <span class="label">WALLET LINK:</span> <span class="val" id="session-id">NOT CONNECTED</span>
+                </div>
+                <div class="header-right">
+                    <span class="label">ORACLE:</span> <span class="val" style="color: #ff6600; text-shadow: 0 0 5px #ff6600;">ONLINE</span>
+                </div>
+            </div>
+
+            <div id="chat-log">
+                <div class="message system">
+                    [SYSTEM] Welcome to the pump.kin terminal. 
+                    [SYSTEM] The Dev fees are being siphoned into The Harvest. 
+                    [SYSTEM] Hold until Halloween. Do not let the ghosts shake you out.
+                </div>
+            </div>
+
+            <div class="input-area">
+                <span class="prompt-arrow">mortal@pump.kin:~$</span>
+                <input type="text" id="chat-input" autocomplete="off" spellcheck="false" autofocus placeholder="Ask the Oracle about The Harvest...">
+                <span class="cursor"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
