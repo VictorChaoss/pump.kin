@@ -3,71 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pump.kin // THE HARVEST</title>
+    <title>pump.kin — The Harvest</title>
+    <meta name="description" content="Every pump.fun creator fee goes into the Harvest. On October 31st, it gets paid out to the holders.">
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="landing.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <nav>
-        <a href="#" class="nav-brand">
-            <img src="/favicon.jpg" alt="pump.kin">
-            pump.kin
+    <!-- Hazard tape ticker -->
+    <div class="tape" aria-hidden="true">
+        <div class="tape-track">
+            <span>CREATOR FEES → THE HARVEST</span><span>PAID TO HOLDERS ON OCT 31</span><span>0% KEPT BY DEV</span><span>THE VEIL IS THIN</span>
+            <span>CREATOR FEES → THE HARVEST</span><span>PAID TO HOLDERS ON OCT 31</span><span>0% KEPT BY DEV</span><span>THE VEIL IS THIN</span>
+            <span>CREATOR FEES → THE HARVEST</span><span>PAID TO HOLDERS ON OCT 31</span><span>0% KEPT BY DEV</span><span>THE VEIL IS THIN</span>
+            <span>CREATOR FEES → THE HARVEST</span><span>PAID TO HOLDERS ON OCT 31</span><span>0% KEPT BY DEV</span><span>THE VEIL IS THIN</span>
+        </div>
+    </div>
+
+    <nav class="wrap">
+        <a href="#" class="brand">
+            <img src="/favicon.jpg" alt="">
+            <span>pump.kin</span>
         </a>
         <div class="nav-links">
-            <a href="#thesis">Thesis</a>
+            <a href="#how">How it works</a>
+            <a href="#rules">Rules</a>
             <a href="#tokenomics">Tokenomics</a>
-            <a href="https://x.com" target="_blank">Twitter</a>
-            <a href="https://t.me" target="_blank">Telegram</a>
+            <a href="#faq">FAQ</a>
+            <a href="/terminal.html" class="nav-cta">Terminal ↗</a>
         </div>
     </nav>
 
-    <header class="hero">
-        <h1>THE HARVEST IS COMING</h1>
-        <p>A decentralized, lore-driven social experiment on Solana. Dev fees feed the pot. The weak are liquidated. The diamond hands are rewarded on October 31st.</p>
-        <div class="btn-group">
-            <a href="/terminal.html" class="btn btn-primary">> ENTER TERMINAL</a>
-            <a href="https://pump.fun" target="_blank" class="btn btn-secondary">BUY ON PUMP.FUN</a>
+    <!-- HERO -->
+    <header class="hero wrap">
+        <div class="hero-copy">
+            <div class="eyebrow">$KIN · SOLANA · PUMP.FUN</div>
+            <h1>Every creator fee goes into <span class="o">the&nbsp;Harvest.</span></h1>
+            <p class="lede">
+                pump.fun pays a coin's creator a cut of every single trade.
+                We don't keep it. <b>100% of creator fees</b> are sent to a public Harvest wallet —
+                and on <b class="o">October 31st</b> the whole pot is paid out to the people still holding.
+            </p>
+            <div class="cta-row">
+                <a href="https://pump.fun" target="_blank" rel="noopener" class="btn btn-primary">Buy on pump.fun</a>
+                <a href="/terminal.html" class="btn btn-ghost">&gt; Enter terminal</a>
+            </div>
+            <div class="ca">
+                <span class="ca-label">CA</span>
+                <code id="ca-value">revealed at launch</code>
+                <button id="ca-copy" type="button">copy</button>
+            </div>
+        </div>
+
+        <div class="hero-art">
+            <div class="art-frame">
+                <img src="/favicon.jpg" alt="pump.kin pixel pumpkin">
+            </div>
+            <div class="art-caption">fig.01 — the harvester</div>
         </div>
     </header>
 
-    <section id="thesis">
-        <h2 class="section-title">THE THESIS</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>01. The Siphon</h3>
-                <p>Pump.fun is ruthless. We embrace the ruthlessness. Instead of a developer taking profits, the dev wallet acts as a black hole. It gathers fees and volume. We call this The Harvest.</p>
+    <!-- COUNTDOWN + POT -->
+    <section class="wrap">
+        <div class="reaping">
+            <div class="reaping-head">
+                <span class="dot"></span> THE REAPING BEGINS IN
             </div>
-            <div class="card">
-                <h3>02. The Shakeout</h3>
-                <p>Every day leading up to Halloween, the Oracle terminal drops new cryptographic lore and puzzles. The weak will panic sell. Their fear is liquidity for the believers.</p>
+            <div class="countdown" id="countdown">
+                <div><span id="cd-d">00</span><small>days</small></div>
+                <div><span id="cd-h">00</span><small>hrs</small></div>
+                <div><span id="cd-m">00</span><small>min</small></div>
+                <div><span id="cd-s">00</span><small>sec</small></div>
             </div>
-            <div class="card">
-                <h3>03. The Reaping</h3>
-                <p>On October 31st, the veil tears. The Harvest is distributed to those who survived the purge. Will you be holding, or will you be a ghost?</p>
+            <div class="pot-grid">
+                <div class="pot">
+                    <small>Harvest pot</small>
+                    <strong id="pot-value">— SOL</strong>
+                    <em>live once the coin launches</em>
+                </div>
+                <div class="pot">
+                    <small>Snapshot</small>
+                    <strong>Oct 31</strong>
+                    <em>random block, announced after</em>
+                </div>
+                <div class="pot">
+                    <small>Payout</small>
+                    <strong>SOL</strong>
+                    <em>pro-rata to holders</em>
+                </div>
+                <div class="pot">
+                    <small>Kept by dev</small>
+                    <strong class="o">0%</strong>
+                    <em>dev wallet excluded</em>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="tokenomics">
-        <h2 class="section-title">TOKENOMICS</h2>
-        <div class="grid" style="grid-template-columns: 1fr;">
-            <div class="card">
-                <h3>Fair Launch via Pump.fun</h3>
-                <ul style="list-style-position: inside; color: #cbd5e1; margin-top: 1rem;">
-                    <li style="margin-bottom: 0.5rem;"><strong>Supply:</strong> 1,000,000,000 $PUMP</li>
-                    <li style="margin-bottom: 0.5rem;"><strong>Taxes:</strong> 0% Buy / 0% Sell (Immutable Contract)</li>
-                    <li style="margin-bottom: 0.5rem;"><strong>Liquidity:</strong> Burned upon Raydium migration</li>
-                    <li><strong>Dev Wallet:</strong> Pledged entirely to The Harvest. Publicly trackable in the Terminal.</li>
-                </ul>
+    <!-- HOW IT WORKS -->
+    <section id="how" class="wrap">
+        <div class="section-head">
+            <span class="tag">01</span>
+            <h2>How the Harvest works</h2>
+            <p>No taxes. No contract tricks. Just pump.fun's own creator rewards, redirected to holders.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">STEP 1</div>
+                <h3>People trade $KIN</h3>
+                <p>Every buy and sell on pump.fun — on the bonding curve and after migration — generates creator fees.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">STEP 2</div>
+                <h3>Fees hit the Harvest</h3>
+                <p>The creator fees are claimed and sent straight to the public Harvest wallet. Anyone can watch it grow on-chain.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">STEP 3</div>
+                <h3>The pot ferments</h3>
+                <p>Until Halloween, the terminal drops daily lore. Paper hands sell; their trades feed the pot even more.</p>
+            </div>
+            <div class="step step-final">
+                <div class="step-num">OCT 31</div>
+                <h3>The Reaping</h3>
+                <p>A snapshot is taken at a random block. The entire Harvest is airdropped in SOL, pro-rata, to everyone holding.</p>
             </div>
         </div>
     </section>
 
-    <footer>
-        > pump.kin terminal active // Do not trust the ghosts.
+    <!-- RULES -->
+    <section id="rules" class="wrap">
+        <div class="section-head">
+            <span class="tag">02</span>
+            <h2>The rules of the Harvest</h2>
+            <p>Written down now so nobody can move the goalposts later.</p>
+        </div>
+
+        <div class="term">
+            <div class="term-bar"><i></i><i></i><i></i><span>harvest.rules</span></div>
+            <div class="term-body">
+                <p><span class="p">mortal@pump.kin:~$</span> cat harvest.rules</p>
+                <ol>
+                    <li><b>100%</b> of creator fees go to the Harvest wallet. The dev keeps nothing.</li>
+                    <li>The Harvest wallet address is published at launch and tracked live in the terminal.</li>
+                    <li>The snapshot happens at a <b>random block on October 31st (UTC)</b> so nobody can buy in at the last second and dump.</li>
+                    <li>Excluded from the snapshot: dev wallet, Harvest wallet, bonding curve / LP, and exchange wallets.</li>
+                    <li>The full pot is distributed in SOL, pro-rata to every remaining holder.</li>
+                    <li>Every payout transaction is published publicly within 24 hours of the Reaping.</li>
+                </ol>
+                <p><span class="p">mortal@pump.kin:~$</span> <span class="blink">█</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOKENOMICS -->
+    <section id="tokenomics" class="wrap">
+        <div class="section-head">
+            <span class="tag">03</span>
+            <h2>Tokenomics</h2>
+            <p>Standard pump.fun fair launch. Nothing hidden.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat"><small>Total supply</small><strong>1,000,000,000</strong></div>
+            <div class="stat"><small>Buy / sell tax</small><strong>0% / 0%</strong></div>
+            <div class="stat"><small>Launch</small><strong>Fair · pump.fun</strong></div>
+            <div class="stat"><small>Creator fees</small><strong class="o">100% → Harvest</strong></div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="wrap">
+        <div class="section-head">
+            <span class="tag">04</span>
+            <h2>FAQ</h2>
+        </div>
+
+        <div class="faq">
+            <details>
+                <summary>Where does the money in the Harvest actually come from?</summary>
+                <p>pump.fun rewards coin creators with a share of trading fees on every trade. Normally the dev pockets that. Here, all of it is sent to the Harvest wallet instead. More volume = bigger pot.</p>
+            </details>
+            <details>
+                <summary>Can I verify the pot?</summary>
+                <p>Yes. The Harvest wallet address goes public at launch. You can check it on Solscan any time, and the terminal shows the live balance.</p>
+            </details>
+            <details>
+                <summary>How much will I get?</summary>
+                <p>Your share of the pot equals your share of eligible supply at the snapshot. Hold 1% of eligible supply, receive 1% of the Harvest.</p>
+            </details>
+            <details>
+                <summary>Why a random snapshot?</summary>
+                <p>So people can't ape in one minute before the snapshot and dump the next. If you want the Harvest, hold through October.</p>
+            </details>
+            <details>
+                <summary>What's the terminal?</summary>
+                <p>An AI oracle that lives at <a href="/terminal.html">/terminal</a>. It drops a new piece of lore every day until Halloween and answers questions — cryptically.</p>
+            </details>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="wrap">
+        <div class="final">
+            <h2>Hold through October.<br>Get paid on Halloween.</h2>
+            <div class="cta-row">
+                <a href="https://pump.fun" target="_blank" rel="noopener" class="btn btn-dark">Buy on pump.fun</a>
+                <a href="/terminal.html" class="btn btn-outline-dark">&gt; Enter terminal</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="wrap">
+        <div class="foot-links">
+            <a href="https://x.com" target="_blank" rel="noopener">X / Twitter</a>
+            <a href="https://t.me" target="_blank" rel="noopener">Telegram</a>
+            <a href="/terminal.html">Terminal</a>
+        </div>
+        <p>pump.kin is a memecoin with no intrinsic value or expectation of financial return beyond the Harvest rules above. Not financial advice. Crypto is volatile — only use what you can afford to lose.</p>
     </footer>
 
+    <script src="landing.js"></script>
 </body>
 </html>
