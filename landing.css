@@ -342,7 +342,7 @@ nav {
 .blink { animation: pulse 1s steps(2) infinite; color: var(--orange); }
 
 /* ---------- Stats ---------- */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .stat { border: 2px solid var(--line); background: var(--panel); padding: 24px; }
 .stat small { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
 .stat strong { font-size: 20px; font-weight: 800; }
