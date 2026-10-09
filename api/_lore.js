@@ -1,4 +1,7 @@
-{
+// Daily transmissions. Lives in /api so answers are never served to the browser.
+// Files starting with "_" are not exposed as Vercel functions.
+
+export const LORE = {
     "2026-10-08": {
         "title": "RITUAL 001: THE AWAKENING",
         "lore": "A forgotten wallet from 2011 just signed a transaction. The signature was a hex-encoded distress signal. The pump.kin entity has awoken.",
@@ -239,4 +242,35 @@
         "mediaType": "none",
         "mediaSrc": ""
     }
+};
+
+// Countdown target for the Reaping (UTC). Keep in sync with landing.js.
+export const REAPING_ISO = '2026-10-31T00:00:00Z';
+
+// Transmissions unlock at 00:00 UTC each day.
+export function todayKey(now = new Date()) {
+    return now.toISOString().slice(0, 10);
+}
+
+export function isUnlocked(key, now = new Date()) {
+    return Boolean(LORE[key]) && key <= todayKey(now);
+}
+
+// The most recent unlocked transmission (null before the first one).
+export function currentKey(now = new Date()) {
+    const unlocked = Object.keys(LORE).sort().filter((k) => k <= todayKey(now));
+    return unlocked.length ? unlocked[unlocked.length - 1] : null;
+}
+
+export function listDays(now = new Date()) {
+    return Object.keys(LORE).sort().map((date, i) => {
+        const unlocked = isUnlocked(date, now);
+        return { n: i + 1, date, unlocked, title: unlocked ? LORE[date].title : null };
+    });
+}
+
+// Strip the answer before anything goes to the browser.
+export function publicEntry(date) {
+    const { answer, success_msg, ...rest } = LORE[date];
+    return { date, ...rest };
 }
