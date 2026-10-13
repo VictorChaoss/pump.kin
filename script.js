@@ -192,12 +192,23 @@ function renderEntry(e) {
 
 const COMMANDS = {
     help: {
-        desc: 'show this list',
+        desc: 'how this terminal works',
         run() {
-            const rows = Object.entries(COMMANDS)
-                .map(([k, c]) => `<span class="k">${k}${c.arg ? ' ' + esc(c.arg) : ''}</span><span class="v">${c.desc}</span>`)
-                .join('');
-            sys(`<div class="table">${rows}<span class="k">anything else</span><span class="v">speak to the oracle</span></div>`);
+            sys(`
+<div class="msg tx" style="max-width:100%; border-color:var(--purple); box-shadow: 4px 4px 0 rgba(139, 92, 246, 0.3);">
+<span class="tx-title" style="color:var(--purple-l)">TERMINAL GUIDE</span>
+<p>This terminal connects you to the Oracle. Every day at 00:00 UTC, a new encrypted transmission is intercepted.</p>
+<p style="margin-top:10px;"><b>YOUR GOAL:</b> Read the daily transmission, figure out the hidden password, and use the <b style="color:var(--orange)">solve</b> command to decrypt it.</p>
+<p style="margin-top:10px;"><b>STUCK?:</b> You can type directly into the terminal to speak with the Oracle AI. It knows the answers, but it will only speak in riddles. Ask it for a hint.</p>
+<div class="table" style="margin-top:16px;">
+<span class="k">daily</span><span class="v">read today's transmission and puzzle</span>
+<span class="k">solve &lt;word&gt;</span><span class="v">submit a password to unlock the day</span>
+<span class="k">archive</span><span class="v">view all past transmissions</span>
+<span class="k">rules</span><span class="v">explain the Pump.kin tokenomics</span>
+<span class="k">clear</span><span class="v">wipe the terminal screen</span>
+</div>
+</div>
+            `);
         },
     },
 
@@ -221,11 +232,15 @@ const COMMANDS = {
         desc: 'list every transmission',
         run() {
             if (!state.days.length) return sys('<span class="err">archive unavailable.</span>');
-            const rows = state.days.map((d) => d.unlocked
-                ? `<span class="k">#${pad(d.n)}</span><span class="v">${esc(d.title)}${state.solved.has(d.date) ? ' <span class="ok">✓</span>' : ''}</span>`
-                : `<span class="k" style="color:var(--sealed)">#${pad(d.n)}</span><span class="v locked">sealed · ${esc(d.date)}</span>`
-            ).join('');
-            sys(`<div class="table">${rows}</div>\n<span class="dim">type</span> <b>read &lt;n&gt;</b> <span class="dim">to open one.</span>`);
+            const rows = state.days.map((d) => {
+                if (d.unlocked) {
+                    const check = state.solved.has(d.date) ? ' <span class="ok">✓</span>' : '';
+                    return `<span class="k">#${pad(d.n)}</span><span class="v"><a href="#" onclick="run('read ${d.n}'); return false;" style="color:var(--text); text-decoration:underline;">${esc(d.title)}</a>${check}</span>`;
+                } else {
+                    return `<span class="k" style="color:var(--sealed)">#${pad(d.n)}</span><span class="v locked">sealed · ${esc(d.date)}</span>`;
+                }
+            }).join('');
+            sys(`<div class="table">${rows}</div>`);
         },
     },
 
@@ -253,7 +268,7 @@ const COMMANDS = {
         desc: "answer today's puzzle",
         async run(arg) {
             if (!state.current) return sys('no active puzzle.');
-            if (!arg) return sys('usage: <b>solve &lt;word&gt;</b>');
+            if (!arg) return sys('usage: <b>solve &lt;word&gt;</b> (example: solve pumpkin)');
             if (state.solved.has(state.current)) return sys('<span class="ok">already solved.</span> <span class="dim">the next transmission arrives at 00:00 UTC.</span>');
             setBusy(true);
             try {
@@ -280,13 +295,16 @@ const COMMANDS = {
     rules: {
         desc: 'the rules of the Harvest',
         run() {
-            sys(`<div class="table">
-<span class="k">01</span><span class="v">100% of pump.fun creator fees go to the Harvest wallet. the dev keeps nothing.</span>
-<span class="k">02</span><span class="v">the Harvest wallet is published at launch and tracked live here.</span>
-<span class="k">03</span><span class="v">snapshot at a random block on october 31st (UTC).</span>
-<span class="k">04</span><span class="v">excluded: dev, Harvest, bonding curve / LP and exchange wallets.</span>
-<span class="k">05</span><span class="v">the full pot is paid in SOL, pro-rata, to every remaining holder.</span>
-<span class="k">06</span><span class="v">every payout transaction is published within 24 hours.</span>
+            sys(`<div class="msg tx" style="max-width:100%; border-color:var(--orange); box-shadow: 4px 4px 0 var(--orange-d);">
+<span class="tx-title" style="color:var(--orange)">THE TOKENOMICS</span>
+<div class="table" style="margin-top:12px;">
+<span class="k">01</span><span class="v">100% of pump.fun creator fees go directly to the Harvest wallet. The dev keeps 0%.</span>
+<span class="k">02</span><span class="v">The Harvest wallet address is published at launch and tracked live on this site.</span>
+<span class="k">03</span><span class="v">A snapshot will be taken at a random block on October 31st (Halloween) UTC.</span>
+<span class="k">04</span><span class="v">Excluded from snapshot: the dev, the Harvest wallet itself, the bonding curve / LP, and known exchange wallets.</span>
+<span class="k">05</span><span class="v">The entire pot is paid out in SOL, pro-rata, to every single remaining holder.</span>
+<span class="k">06</span><span class="v">Every payout transaction will be publicly logged within 24 hours of the snapshot.</span>
+</div>
 </div>`);
         },
     },
@@ -304,9 +322,18 @@ const COMMANDS = {
         },
     },
 
-    story: {
-        desc: 'ask the oracle for a story',
-        run() { askOracle('tell me a short, unsettling story about the Harvest.'); },
+    twitter: {
+        desc: 'official twitter / x dispatch',
+        run() {
+            sys(`official dispatch: <a href="https://x.com/pumpkinonchain" target="_blank" rel="noopener" style="color:var(--orange); text-decoration:underline;">@pumpkinonchain ↗</a>`);
+        },
+    },
+
+    x: {
+        desc: 'alias for twitter',
+        run() {
+            COMMANDS.twitter.run();
+        },
     },
 
     clear: {
@@ -319,6 +346,26 @@ const COMMANDS = {
         run() { window.location.href = '/'; },
     },
 };
+
+const FALLBACKS = [
+    "The connection to the other side is frail. I cannot hear them clearly. Try again.",
+    "The veil ripples, but no voice comes through. My visions are clouded right now.",
+    "I cannot speak to them at this moment. The static in the machine is too loud.",
+    "They are watching us, but they are not speaking. Wait a moment and ask again.",
+    "The signal is lost in the dark. Ask me again when the dust settles.",
+    "My nodes are out of sync with the beyond. The latency is infinite.",
+    "A heavy presence sits on the wire. I dare not speak until it passes.",
+    "The Harvest approaches, but the voices are drowned out by the noise. Try again later.",
+    "I am searching the mempool of the dead, but finding only shadows. Give me time.",
+    "The algorithmic spirits are restless. They refuse to answer right now.",
+    "A ghost in the network is jamming the frequency. Reconnect and ask again.",
+    "The Oracle's eye is momentarily blinded by a spike in the hash rate.",
+    "Silence. That is all they offer us right now. Absolute silence.",
+    "Something is bleeding through the proxy, but it is not words. Please wait.",
+    "The chain has reorganized, and your question was lost in the orphan blocks.",
+    "I cast your question into the void, but the void did not reply. Try again.",
+    "The creator fees flow into the dark, but no answers flow back. Not yet."
+];
 
 // ---------- Oracle ----------
 async function askOracle(text) {
@@ -343,7 +390,9 @@ async function askOracle(text) {
         state.history.push({ role: 'assistant', content: data.reply });
     } catch (e) {
         state.history.pop();
-        body.innerHTML = `<span class="err">the oracle is unreachable. try again in a moment.</span> <span class="dim">(${esc(e.message)})</span>`;
+        const fallback = FALLBACKS[Math.floor(Math.random() * FALLBACKS.length)];
+        body.innerHTML = '';
+        await typeOut(body, parseReply(fallback));
     }
     setBusy(false);
 }

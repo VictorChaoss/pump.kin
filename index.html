@@ -29,10 +29,12 @@
             <span>pump.kin</span>
         </a>
         <div class="nav-links">
+            <a href="#farm">The Patch</a>
             <a href="#how">How it works</a>
             <a href="#rules">Rules</a>
             <a href="#tokenomics">Tokenomics</a>
             <a href="#faq">FAQ</a>
+            <a href="https://x.com/pumpkinonchain" target="_blank" rel="noopener">X ↗</a>
             <a href="/terminal.html" class="nav-cta">Terminal ↗</a>
         </div>
     </nav>
@@ -98,6 +100,74 @@
                     <small>Kept by dev</small>
                     <strong class="o">0%</strong>
                     <em>dev wallet excluded</em>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE PUMPKIN PATCH (8-BIT LIVE GROWTH) -->
+    <section id="farm" class="wrap">
+        <div class="farm-panel">
+            <div class="farm-head">
+                <div class="farm-title">
+                    <span class="dot"></span>
+                    <span>FIG.02 — THE HARVEST PATCH</span>
+                    <span class="dim" style="font-size:11px; margin-left: 8px;">(8-BIT MCAP GROWER)</span>
+                </div>
+                <div class="farm-badge" id="farm-badge">
+                    <span class="live-dot" id="farm-live-dot"></span>
+                    <span id="farm-status-text">SIMULATION MODE</span>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="farm-metrics">
+                <div class="metric">
+                    <small>Market Cap</small>
+                    <strong id="farm-mc-val">$4,200</strong>
+                    <span class="metric-sub" id="farm-mc-sub">pump.fun bonding curve</span>
+                </div>
+                <div class="metric">
+                    <small>Curve / Migration</small>
+                    <strong id="farm-curve-val" class="o">9.5%</strong>
+                    <span class="metric-sub" id="farm-curve-sub">target: $44,000</span>
+                </div>
+                <div class="metric">
+                    <small>Growth Stage</small>
+                    <strong id="farm-stage-val">STAGE 1 · THE SPROUT</strong>
+                    <span class="metric-sub" id="farm-stage-sub">breaking ground</span>
+                </div>
+            </div>
+
+            <!-- 8-Bit Canvas Viewport -->
+            <div class="farm-viewport">
+                <canvas id="farm-canvas" width="480" height="240"></canvas>
+                <div class="farm-overlay-label" id="farm-overlay-label">STAGE 1: SEEDLING</div>
+            </div>
+
+            <!-- Interactive Preview / Control Bar -->
+            <div class="farm-controls">
+                <div class="control-row">
+                    <span class="control-label">PREVIEW 20 MICRO-STAGES:</span>
+                    <div class="tier-buttons">
+                        <button type="button" class="tier-btn active" data-mc="3500">$3.5K SEED</button>
+                        <button type="button" class="tier-btn" data-mc="6000">$6K SPROUT</button>
+                        <button type="button" class="tier-btn" data-mc="10500">$10.5K LEAF</button>
+                        <button type="button" class="tier-btn" data-mc="16000">$16K VINES</button>
+                        <button type="button" class="tier-btn" data-mc="22500">$22.5K BLOSSOM</button>
+                        <button type="button" class="tier-btn" data-mc="29500">$29.5K BABY</button>
+                        <button type="button" class="tier-btn" data-mc="36500">$36.5K MOTTLED</button>
+                        <button type="button" class="tier-btn" data-mc="41000">$41K RIPE</button>
+                        <button type="button" class="tier-btn tier-btn-migrated" data-mc="44000">⚡ $44K MIGRATION</button>
+                        <button type="button" class="tier-btn" data-mc="75000">$75K TRIO</button>
+                        <button type="button" class="tier-btn" data-mc="150000">$150K SCARE</button>
+                        <button type="button" class="tier-btn" data-mc="350000">$350K ECLIPSE</button>
+                    </div>
+                </div>
+                <div class="slider-row">
+                    <span class="slider-label">SMOOTH MC SCRUBBER ($3.5K → $100K):</span>
+                    <input type="range" id="farm-slider" min="3500" max="100000" step="250" value="3500">
+                    <span class="slider-display" id="farm-slider-display">$3.5K</span>
                 </div>
             </div>
         </div>
@@ -219,7 +289,7 @@
 
     <footer class="wrap">
         <div class="foot-links">
-            <a href="https://x.com" target="_blank" rel="noopener">X / Twitter</a>
+            <a href="https://x.com/pumpkinonchain" target="_blank" rel="noopener">X / Twitter (@pumpkinonchain)</a>
             <a href="https://t.me" target="_blank" rel="noopener">Telegram</a>
             <a href="/terminal.html">Terminal</a>
         </div>
