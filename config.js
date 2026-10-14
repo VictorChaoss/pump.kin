@@ -5,7 +5,7 @@
 
 const PUMPKIN_CONFIG = {
     // 1. Paste your pump.fun coin Mint / Contract Address here:
-    CONTRACT_ADDRESS: '',
+    CONTRACT_ADDRESS: 'Gm4UfuuMNgLGKgEqV1iEeUYhStGZQmyo3FdEXnoRpump',
 
     // 2. (Optional) Public Harvest Pot Wallet:
     //    If left empty, the site will automatically track the coin's creator wallet!
