@@ -1,6 +1,48 @@
-// ===== Launch config =====
-const REAPING_DATE = new Date('2026-10-31T00:00:00Z'); // keep in sync with landing.js
-// ==========================
+// ===== Launch config from master config.js =====
+const CFG = (typeof window !== 'undefined' && window.PUMPKIN_CONFIG) ? window.PUMPKIN_CONFIG : {};
+const CONTRACT_ADDRESS = CFG.CONTRACT_ADDRESS || '';
+let HARVEST_WALLET = CFG.HARVEST_WALLET || '';
+const REAPING_DATE = CFG.REAPING_DATE || new Date('2026-10-31T00:00:00Z');
+// ===============================================
+
+async function pollHarvestPot() {
+    if (!HARVEST_WALLET && CONTRACT_ADDRESS) {
+        try {
+            const res = await fetch(`https://frontend-api.pump.fun/coins/${CONTRACT_ADDRESS}`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.creator) HARVEST_WALLET = data.creator;
+            }
+        } catch (e) {}
+    }
+    if (!HARVEST_WALLET) return;
+
+    try {
+        const res = await fetch('https://api.mainnet-beta.solana.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                jsonrpc: '2.0',
+                id: 1,
+                method: 'getBalance',
+                params: [HARVEST_WALLET]
+            })
+        });
+        const data = await res.json();
+        if (data && data.result && typeof data.result.value === 'number') {
+            const solNum = data.result.value / 1e9;
+            const solFormatted = solNum >= 100 ? solNum.toFixed(1) : solNum.toFixed(2);
+            const potEl = document.getElementById('pot');
+            if (potEl) potEl.textContent = `${solFormatted} SOL`;
+        }
+    } catch (e) {
+        console.warn('Could not fetch pot balance:', e);
+    }
+}
+if (CONTRACT_ADDRESS || HARVEST_WALLET) {
+    pollHarvestPot();
+    setInterval(pollHarvestPot, 15000);
+}
 
 const $ = (id) => document.getElementById(id);
 const log = $('chat-log');

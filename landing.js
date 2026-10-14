@@ -1,11 +1,13 @@
 // ===================================================
-// ===== LAUNCH CONFIG: EDIT THESE ON LAUNCH DAY =====
+// ===== PUMP.KIN AUTO-PILOT ENGINE ==================
 // ===================================================
-const REAPING_DATE = new Date('2026-10-31T00:00:00Z'); // countdown target (UTC)
-const CONTRACT_ADDRESS = '';                           // paste your pump.fun coin CA here
-const HARVEST_WALLET = '';                             // paste the public Harvest wallet address here
-const X_TWITTER_URL = 'https://x.com/pumpkinonchain';  // official X account
-// ===================================================
+
+const CFG = (typeof window !== 'undefined' && window.PUMPKIN_CONFIG) ? window.PUMPKIN_CONFIG : {};
+const CONTRACT_ADDRESS = CFG.CONTRACT_ADDRESS || '';
+let HARVEST_WALLET = CFG.HARVEST_WALLET || '';
+const REAPING_DATE = CFG.REAPING_DATE || new Date('2026-10-31T00:00:00Z');
+
+let cachedSolPrice = 150; // Fallback SOL/USD price
 
 const pad = (n) => String(n).padStart(2, '0');
 const els = {
@@ -18,21 +20,21 @@ const els = {
 function tick() {
     const diff = Math.max(0, REAPING_DATE - Date.now());
     const s = Math.floor(diff / 1000);
-    els.d.textContent = pad(Math.floor(s / 86400));
-    els.h.textContent = pad(Math.floor((s % 86400) / 3600));
-    els.m.textContent = pad(Math.floor((s % 3600) / 60));
-    els.s.textContent = pad(s % 60);
+    if (els.d) els.d.textContent = pad(Math.floor(s / 86400));
+    if (els.h) els.h.textContent = pad(Math.floor((s % 86400) / 3600));
+    if (els.m) els.m.textContent = pad(Math.floor((s % 3600) / 60));
+    if (els.s) els.s.textContent = pad(s % 60);
 }
 tick();
 setInterval(tick, 1000);
 
-// Contract address + copy
+// Auto-activate CA, Buy Buttons, and Links
 const caValue = document.getElementById('ca-value');
 const caCopy = document.getElementById('ca-copy');
 
 if (CONTRACT_ADDRESS) {
     if (caValue) caValue.textContent = CONTRACT_ADDRESS;
-    // Auto-update buy buttons to coin page
+    // Auto-update all buy buttons to direct pump.fun coin page
     document.querySelectorAll('a[href^="https://pump.fun"]').forEach(a => {
         a.href = `https://pump.fun/coin/${CONTRACT_ADDRESS}`;
     });
@@ -52,9 +54,46 @@ if (caCopy) {
     });
 }
 
-// Live Harvest Pot Balance Fetcher (Zero-config Solana RPC)
+// Auto-detect creator wallet from pump.fun if HARVEST_WALLET wasn't manually filled
+async function autoDetectHarvestWallet() {
+    if (HARVEST_WALLET || !CONTRACT_ADDRESS) return;
+    try {
+        const res = await fetch(`https://frontend-api.pump.fun/coins/${CONTRACT_ADDRESS}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && data.creator) {
+            HARVEST_WALLET = data.creator;
+            pollHarvestPot();
+        }
+    } catch (e) {
+        // Quiet fallback if CORS restricts frontend API
+    }
+}
+
+// Fetch live SOL/USD price for accurate pot USD estimation
+async function updateSolPrice() {
+    try {
+        const res = await fetch('https://api.dexscreener.com/latest/dex/tokens/So11111111111111111111111111111111111111112');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && data.pairs && data.pairs.length > 0) {
+            const p = parseFloat(data.pairs[0].priceUsd);
+            if (p > 0) cachedSolPrice = p;
+        }
+    } catch (e) {
+        // Keep cached price
+    }
+}
+updateSolPrice();
+setInterval(updateSolPrice, 60000);
+
+// Live Harvest Pot Balance Fetcher (Zero-config Solana RPC + Solscan link)
 async function pollHarvestPot() {
-    if (!HARVEST_WALLET) return;
+    if (!HARVEST_WALLET) {
+        await autoDetectHarvestWallet();
+        if (!HARVEST_WALLET) return;
+    }
+
     try {
         const res = await fetch('https://api.mainnet-beta.solana.com', {
             method: 'POST',
@@ -67,16 +106,27 @@ async function pollHarvestPot() {
             })
         });
         const data = await res.json();
-        if (data.result && typeof data.result.value === 'number') {
-            const sol = (data.result.value / 1e9).toFixed(2);
+        if (data && data.result && typeof data.result.value === 'number') {
+            const solNum = data.result.value / 1e9;
+            const solFormatted = solNum >= 100 ? solNum.toFixed(1) : solNum.toFixed(2);
+            const usdVal = Math.round(solNum * cachedSolPrice).toLocaleString('en-US');
+
             const potEl = document.getElementById('pot-value');
-            if (potEl) potEl.textContent = `${sol} SOL`;
+            if (potEl) {
+                potEl.innerHTML = `${solFormatted} SOL <span style="font-size:14px; color:var(--purple-l); font-weight:400; opacity:.85;">(~$${usdVal})</span>`;
+            }
+
+            const potSubEl = document.getElementById('pot-sub');
+            if (potSubEl) {
+                potSubEl.innerHTML = `<a href="https://solscan.io/account/${HARVEST_WALLET}" target="_blank" rel="noopener" style="color:var(--orange); text-decoration:underline;">verify on solscan ↗</a>`;
+            }
         }
     } catch (e) {
         console.warn('Could not fetch pot balance:', e);
     }
 }
-if (HARVEST_WALLET) {
+
+if (CONTRACT_ADDRESS || HARVEST_WALLET) {
     pollHarvestPot();
     setInterval(pollHarvestPot, 15000);
 }
